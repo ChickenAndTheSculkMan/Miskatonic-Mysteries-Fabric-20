@@ -10,7 +10,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.Material;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
@@ -27,7 +26,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.tag.FluidTags;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
@@ -51,7 +50,7 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
 	public static final VoxelShape SHAPE_W_E = createCuboidShape(2, 0, 0, 14, 14, 16);
 
 	public ChemistrySetBlock() {
-		super(Settings.of(Material.METAL).nonOpaque().requiresTool().strength(1F, 4F)
+		super(Settings.create().nonOpaque().requiresTool().strength(1F, 4F)
 				  .allowsSpawning((state, world, pos, type) -> false).solidBlock((state, world, pos) -> false)
 				  .suffocates((state, world, pos) -> false)
 				  .blockVision((state, world, pos) -> false)
@@ -60,7 +59,7 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
 	}
 
 	@Override
-	public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
 		return true;
 	}
 
@@ -87,7 +86,7 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		final BlockState state = this.getDefaultState().with(FACING, ctx.getPlayerFacing());
+		final BlockState state = this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing());
 		if (state.contains(WATERLOGGED)) {
 			final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
 			final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
@@ -106,7 +105,7 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
 												BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
-			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 
 		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
@@ -188,7 +187,7 @@ public class ChemistrySetBlock extends HorizontalFacingBlock implements BlockEnt
 		if (!state.get(Properties.WATERLOGGED) && fluidState.getFluid() == Fluids.WATER) {
 			if (!world.isClient()) {
 				world.setBlockState(pos, state.with(Properties.WATERLOGGED, true).with(LIT, false), 3);
-				world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+				world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 			}
 			return true;
 		}

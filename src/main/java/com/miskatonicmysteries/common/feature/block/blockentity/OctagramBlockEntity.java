@@ -37,6 +37,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
@@ -45,8 +46,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.event.PositionSource;
@@ -387,7 +388,7 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	}
 
 	public ServerWorld getBoundDimension() {
-		return boundPos != null && !world.isClient ? world.getServer().getWorld(RegistryKey.of(Registry.WORLD_KEY,
+		return boundPos != null && !world.isClient ? world.getServer().getWorld(RegistryKey.of(RegistryKeys.WORLD,
 																							   boundPos.getFirst())) : null;
 	}
 
@@ -413,11 +414,11 @@ public class OctagramBlockEntity extends BaseBlockEntity implements ImplementedB
 	}
 
 	@Override
-	public boolean listen(ServerWorld world, GameEvent.Message event) {
+	public boolean listen(ServerWorld world, GameEvent event, GameEvent.Emitter emitter, Vec3d emitterPos) {
 		if (currentRite != null) {
-			Entity entity = event.getEmitter().sourceEntity();
-			if (!currentRite.listen(this, world, event.getEvent(), entity, pos)) {
-				if (!world.isClient && event.getEvent() == GameEvent.ENTITY_DIE && entity != null && entity.getType()
+			Entity entity = emitter.sourceEntity();
+			if (!currentRite.listen(this, world, event.getRegistryEntry().value(), entity, pos)) {
+				if (!world.isClient && event.getRegistryEntry().value() == GameEvent.ENTITY_DIE && entity != null && entity.getType()
 						.isIn(Constants.Tags.VALID_SACRIFICES)) {
 					setBloody(true);
 					markDirty();

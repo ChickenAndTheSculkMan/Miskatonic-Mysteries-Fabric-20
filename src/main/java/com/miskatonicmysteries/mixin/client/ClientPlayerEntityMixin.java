@@ -23,7 +23,7 @@ public abstract class ClientPlayerEntityMixin extends AbstractClientPlayerEntity
 
 
 	public ClientPlayerEntityMixin(ClientWorld world, GameProfile profile, @Nullable PlayerPublicKey publicKey) {
-		super(world, profile, publicKey);
+		super(world, profile);
 	}
 
 	@Inject(method = "tickRiding", at = @At("TAIL"))

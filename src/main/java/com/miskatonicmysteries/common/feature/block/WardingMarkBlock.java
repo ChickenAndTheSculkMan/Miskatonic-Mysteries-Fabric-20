@@ -6,16 +6,15 @@ import com.miskatonicmysteries.common.feature.world.MMDimensionalWorldState;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class WardingMarkBlock extends SignBlock {
 
 	public WardingMarkBlock() {
-		super(FabricBlockSettings.of(Material.CARPET, MapColor.YELLOW).noCollision().hardness(1).resistance(3F).luminance(4));
+		super(FabricBlockSettings.create().mapColor(DyeColor.YELLOW).noCollision().hardness(1).resistance(3F).luminance(4));
 	}
 
 	@Override

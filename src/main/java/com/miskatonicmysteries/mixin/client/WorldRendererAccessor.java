@@ -1,9 +1,9 @@
 package com.miskatonicmysteries.mixin.client;
 
+import ladysnake.satin.api.managed.ShaderEffectManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
-import net.minecraft.client.gl.ShaderEffect;
 import net.minecraft.client.render.WorldRenderer;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,5 +14,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface WorldRendererAccessor {
 
 	@Accessor("entityOutlineShader")
-	ShaderEffect getEntityOutlineShader();
+	ShaderEffectManager getEntityOutlineShader();
 }

@@ -86,6 +86,11 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 		this.buffed = buffed;
 	}
 
+	@Override
+	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+		return true;
+	}
+
 	public static ItemStack setCreator(ItemStack stack, PlayerEntity player) {
 		if (player == null) {
 			return stack;

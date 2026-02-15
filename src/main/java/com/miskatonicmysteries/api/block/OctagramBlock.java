@@ -62,6 +62,11 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 		this.affiliation = affiliation;
 	}
 
+	@Override
+	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+		return true;
+	}
+
 	@Nullable
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
@@ -284,6 +289,11 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 				}
 			}
 			return super.onUse(state, world, pos, player, hand, hit);
+		}
+
+		@Override
+		public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+			return true;
 		}
 
 		public static OctagramBlockEntity getOctagram(World world, BlockPos pos, BlockState state) {

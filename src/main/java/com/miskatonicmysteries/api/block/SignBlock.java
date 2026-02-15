@@ -33,6 +33,11 @@ public class SignBlock extends Block {
 	}
 
 	@Override
+	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+		return true;
+	}
+
+	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
 		if (isPlacementValid(ctx.getWorld(), ctx.getBlockPos(), ctx.getSide())) {
 			if (ctx.getSide() != Direction.UP) {

@@ -118,7 +118,7 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import vazkii.patchouli.api.PatchouliAPI;

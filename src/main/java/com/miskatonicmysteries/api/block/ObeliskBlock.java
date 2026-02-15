@@ -87,6 +87,11 @@ public class ObeliskBlock extends HorizontalFacingBlock implements Waterloggable
 		return hasturObeliskPattern;
 	}
 
+	@Override
+	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+		return true;
+	}
+
 	public static ActionResult buildObelisk(ItemUsageContext context, BlockPattern blockPattern, BlockPattern.Result result) {
 		World world = context.getWorld();
 		BlockPos rootPos = result.getFrontTopLeft();

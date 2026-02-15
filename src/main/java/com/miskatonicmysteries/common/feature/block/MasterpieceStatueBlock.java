@@ -7,6 +7,7 @@ import com.miskatonicmysteries.common.registry.MMAffiliations;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.util.Constants;
 
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
@@ -26,7 +27,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.tag.FluidTags;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.text.Text;
 
 import net.minecraft.util.BlockMirror;
@@ -44,7 +45,8 @@ import net.minecraft.world.WorldAccess;
 import java.util.List;
 
 import com.mojang.authlib.GameProfile;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class MasterpieceStatueBlock extends Block implements Waterloggable, BlockEntityProvider, Affiliated {
@@ -104,7 +106,7 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, @org.jetbrains.annotations.Nullable BlockView world, List<Text> tooltip,
+	public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip,
 							  TooltipContext options) {
 		if (stack.hasNbt() && stack.getNbt().contains((Constants.NBT.BLOCK_ENTITY_TAG))) {
 			NbtCompound compoundTag = stack.getSubNbt(Constants.NBT.BLOCK_ENTITY_TAG);
@@ -120,7 +122,7 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState,
 												WorldAccess world, BlockPos pos, BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
-			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
 	}
@@ -175,7 +177,7 @@ public class MasterpieceStatueBlock extends Block implements Waterloggable, Bloc
 	public static class MasterpieceStatueBlockItem extends BlockItem {
 
 		public MasterpieceStatueBlockItem() {
-			super(MMObjects.MASTERPIECE_STATUE, new Item.Settings().group(Constants.MM_GROUP).rarity(Rarity.UNCOMMON));
+			super(MMObjects.MASTERPIECE_STATUE, new FabricItemSettings().rarity(Rarity.UNCOMMON));
 		}
 
 		@Override

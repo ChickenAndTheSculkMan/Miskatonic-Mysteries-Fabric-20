@@ -57,6 +57,11 @@ public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, 
 	}
 
 	@Override
+	public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
+		return true;
+	}
+
+	@Override
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
 												BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
