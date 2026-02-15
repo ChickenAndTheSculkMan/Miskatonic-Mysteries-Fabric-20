@@ -33,13 +33,14 @@ import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import net.minecraft.world.Heightmap.Type;
 
 import java.util.List;
@@ -109,12 +110,12 @@ public class MMEntities {
 	public static final TrackedDataHandler<EntityType<?>> ENTITY_TYPE_TRACKER = new TrackedDataHandler<>() {
 		@Override
 		public void write(PacketByteBuf data, EntityType<?> object) {
-			data.writeIdentifier(Registry.ENTITY_TYPE.getId(object));
+			data.writeIdentifier(Registries.ENTITY_TYPE.getId(object));
 		}
 
 		@Override
 		public EntityType<?> read(PacketByteBuf packetByteBuf) {
-			return Registry.ENTITY_TYPE.get(packetByteBuf.readIdentifier());
+			return Registries.ENTITY_TYPE.get(packetByteBuf.readIdentifier());
 		}
 
 		@Override
@@ -127,14 +128,14 @@ public class MMEntities {
 		TrackedDataHandlerRegistry.register(MiskatonicMysteriesAPI.AFFILIATION_TRACKER);
 		TrackedDataHandlerRegistry.register(MiskatonicMysteriesAPI.CONFIG_TRACKER);
 		TrackedDataHandlerRegistry.register(ENTITY_TYPE_TRACKER);
-		RegistryUtil.register(Registry.ENTITY_TYPE, "protagonist", PROTAGONIST);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "protagonist", PROTAGONIST);
 		FabricDefaultAttributeRegistry.register(PROTAGONIST, PathAwareEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 25)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.24D)
 			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 1.5F)
 			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 40));
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "hastur_cultist", HASTUR_CULTIST);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "hastur_cultist", HASTUR_CULTIST);
 		FabricDefaultAttributeRegistry.register(HASTUR_CULTIST, PathAwareEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 25)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5)
@@ -142,10 +143,10 @@ public class MMEntities {
 			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 10)
 			.add(EntityAttributes.GENERIC_ARMOR, 4));
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "spell_projectile", SPELL_PROJECTILE);
-		RegistryUtil.register(Registry.ENTITY_TYPE, "bolt", BOLT);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "spell_projectile", SPELL_PROJECTILE);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "bolt", BOLT);
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "phantasma", PHANTASMA);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "phantasma", PHANTASMA);
 		FabricDefaultAttributeRegistry.register(PHANTASMA, PathAwareEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 10)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3D)
@@ -154,7 +155,7 @@ public class MMEntities {
 			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.65F)
 			.add(EntityAttributes.GENERIC_FLYING_SPEED, 0.2F));
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "aberration", ABERRATION);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "aberration", ABERRATION);
 		FabricDefaultAttributeRegistry.register(ABERRATION, HostileEntity.createHostileAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 16)
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D)
@@ -163,7 +164,7 @@ public class MMEntities {
 			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.65F)
 			.add(EntityAttributes.GENERIC_FLYING_SPEED, 0.4F));
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "tattered_prince", TATTERED_PRINCE);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "tattered_prince", TATTERED_PRINCE);
 		FabricDefaultAttributeRegistry.register(TATTERED_PRINCE, PathAwareEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 250)
 			.add(EntityAttributes.GENERIC_ARMOR, 9)
@@ -174,7 +175,7 @@ public class MMEntities {
 			.add(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, 3)
 			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.8F));
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "energy_tentacle", GENERIC_TENTACLE);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "energy_tentacle", GENERIC_TENTACLE);
 		FabricDefaultAttributeRegistry.register(GENERIC_TENTACLE, MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 15)
 			.add(EntityAttributes.GENERIC_ARMOR, 10)
@@ -185,7 +186,7 @@ public class MMEntities {
 			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 6)
 			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 1));
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "harrow", HARROW);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "harrow", HARROW);
 		FabricDefaultAttributeRegistry.register(HARROW, HarrowEntity.createHarrowAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 10)
 			.add(EntityAttributes.GENERIC_ARMOR, 4)
@@ -195,7 +196,7 @@ public class MMEntities {
 			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 10)
 			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.6F));
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "byakhee", BYAKHEE);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "byakhee", BYAKHEE);
 		FabricDefaultAttributeRegistry.register(BYAKHEE, TameableEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 40)
 			.add(EntityAttributes.GENERIC_ARMOR, 6)
@@ -205,27 +206,27 @@ public class MMEntities {
 			.add(EntityAttributes.GENERIC_FOLLOW_RANGE, 10)
 			.add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.4F));
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "hallucination", HALLUCINATION);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "hallucination", HALLUCINATION);
 		FabricDefaultAttributeRegistry.register(HALLUCINATION, HallucinationEntity.createAttributes());
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "tindalos_hound", TINDALOS_HOUND);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "tindalos_hound", TINDALOS_HOUND);
 		FabricDefaultAttributeRegistry.register(TINDALOS_HOUND, TindalosHoundEntity.createAttributes());
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "feaster", FEASTER);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "feaster", FEASTER);
 		FabricDefaultAttributeRegistry.register(FEASTER, FeasterEntity.createAttributes());
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "guard_dog", GUARD_DOG);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "guard_dog", GUARD_DOG);
 		FabricDefaultAttributeRegistry.register(GUARD_DOG, MobEntity.createMobAttributes()
 			.add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.3f)
 			.add(EntityAttributes.GENERIC_MAX_HEALTH, 15.0)
 			.add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 4.0));
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "guardian_painting", GUARDIAN_PAINTING);
-		RegistryUtil.register(Registry.ENTITY_TYPE, "wall_painting", WALL_PAINTING);
-		RegistryUtil.register(Registry.ENTITY_TYPE, "pulse_painting", PULSE_PAINTING);
-		RegistryUtil.register(Registry.ENTITY_TYPE, "homey_painting", HOMEY_PAINTING);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "guardian_painting", GUARDIAN_PAINTING);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "wall_painting", WALL_PAINTING);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "pulse_painting", PULSE_PAINTING);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "homey_painting", HOMEY_PAINTING);
 
-		RegistryUtil.register(Registry.ENTITY_TYPE, "rift", RIFT);
+		RegistryUtil.register(Registries.ENTITY_TYPE, "rift", RIFT);
 
 		//RegistryUtil.register(Registry.VILLAGER_PROFESSION, "psychonaut", PSYCHONAUT);
 
@@ -261,10 +262,10 @@ public class MMEntities {
 		public static PaintingVariant SOUP_TIME = new PaintingVariant(32, 16);
 
 		public static void init() {
-			RegistryUtil.register(Registry.PAINTING_VARIANT, "guardian", GUARDIAN);
-			RegistryUtil.register(Registry.PAINTING_VARIANT, "black_star", BLACK_STAR);
-			RegistryUtil.register(Registry.PAINTING_VARIANT, "shining_gates", SHINING_GATES);
-			RegistryUtil.register(Registry.PAINTING_VARIANT, "soup_time", SOUP_TIME);
+			RegistryUtil.register(Registries.PAINTING_VARIANT, "guardian", GUARDIAN);
+			RegistryUtil.register(Registries.PAINTING_VARIANT, "black_star", BLACK_STAR);
+			RegistryUtil.register(Registries.PAINTING_VARIANT, "shining_gates", SHINING_GATES);
+			RegistryUtil.register(Registries.PAINTING_VARIANT, "soup_time", SOUP_TIME);
 		}
 	}
 }

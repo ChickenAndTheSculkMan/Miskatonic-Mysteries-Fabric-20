@@ -9,11 +9,12 @@ import net.fabricmc.fabric.api.object.builder.v1.villager.VillagerProfessionBuil
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.village.VillagerProfession;
 import net.minecraft.world.poi.PointOfInterestType;
 
@@ -23,10 +24,10 @@ public class MMVillagerProfessions {
     public static final RegistryKey<PointOfInterestType> HASTUR = of("hastur");
     public static final PointOfInterestType PSYCHO_POI = registerPOI("psycho_poi", MMObjects.CHEMISTRY_SET);
     public static final VillagerProfession PSYCHONAUT = registerProfession("psychonaut",
-            RegistryKey.of(Registry.POINT_OF_INTEREST_TYPE_KEY, new Identifier(Constants.MOD_ID, "psycho_poi")), SoundEvents.BLOCK_BREWING_STAND_BREW);
+            RegistryKey.of(Registries.POINT_OF_INTEREST_TYPE.getKey(), new Identifier(Constants.MOD_ID, "psycho_poi")), SoundEvents.BLOCK_BREWING_STAND_BREW);
 
     public static void init() {
-        PointOfInterestTypesAccessor.callRegister(Registry.POINT_OF_INTEREST_TYPE,
+        PointOfInterestTypesAccessor.callRegister(Registries.POINT_OF_INTEREST_TYPE,
                 HASTUR,
                 HASTUR_POI,
                 1,
@@ -41,7 +42,7 @@ public class MMVillagerProfessions {
 
 
     private static RegistryKey<PointOfInterestType> of(String id) {
-        return RegistryKey.of(Registry.POINT_OF_INTEREST_TYPE_KEY, new Identifier(id));
+        return RegistryKey.of(Registries.POINT_OF_INTEREST_TYPE.getKey(), new Identifier(id));
     }
 
     public static PointOfInterestType registerPOI(String name, Block block){
@@ -50,7 +51,7 @@ public class MMVillagerProfessions {
     }
 
     public static VillagerProfession registerProfession(String name, RegistryKey<PointOfInterestType> type, SoundEvent sound){
-        return Registry.register(Registry.VILLAGER_PROFESSION, new Identifier(Constants.MOD_ID,name),
+        return Registry.register(Registries.VILLAGER_PROFESSION, new Identifier(Constants.MOD_ID,name),
                 VillagerProfessionBuilder.create().id(new Identifier(Constants.MOD_ID,name)).workstation(type)
                         .workSound(sound).build());
     }

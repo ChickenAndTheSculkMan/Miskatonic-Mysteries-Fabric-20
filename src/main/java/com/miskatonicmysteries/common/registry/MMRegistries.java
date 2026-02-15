@@ -14,7 +14,7 @@ import com.miskatonicmysteries.common.util.Constants;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 public class MMRegistries {
 

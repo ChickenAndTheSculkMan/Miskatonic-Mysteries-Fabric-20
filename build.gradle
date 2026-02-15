@@ -81,8 +81,9 @@ dependencies {
 
 
 	 */
-	//Energy (Currently putting this one on hold until i figure out if it has a version for 1.20.1 (or scrap it)
-	//modApi include("teamreborn:energy:${project.energy_version}")
+	//Energy
+	modApi include("teamreborn:energy:${project.energy_version}")
+	modImplementation("teamreborn:energy:${project.energy_version}")
 
 	//Geckolib
 	modImplementation("software.bernie.geckolib:geckolib-fabric-${project.minecraft_version}:${project.geckolib_version}")

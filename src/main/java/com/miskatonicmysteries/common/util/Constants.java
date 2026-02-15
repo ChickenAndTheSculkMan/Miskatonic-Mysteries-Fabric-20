@@ -7,17 +7,14 @@ import com.miskatonicmysteries.common.feature.block.PowerCellBlock;
 import com.miskatonicmysteries.common.registry.MMObjects;
 import com.miskatonicmysteries.common.registry.MMRegistries;
 
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.Material;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -27,12 +24,13 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tag.TagKey;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class Constants {
 
@@ -40,59 +38,60 @@ public class Constants {
 	public static Identifier id(String id){
 		return new Identifier(MOD_ID + id);
 	}
-	public static final ItemGroup MM_GROUP = FabricItemGroupBuilder.create(new Identifier(MOD_ID, "group"))
-		.icon(() -> new ItemStack(MMObjects.NECRONOMICON)).appendItems(list -> {
-			for (Item item : Registry.ITEM) {
-				if (Registry.ITEM.getId(item).getNamespace().equals(MOD_ID)) {
+	public static final ItemGroup MM_GROUP = Registry.register(Registries.ITEM_GROUP, new Identifier(MOD_ID, "group"),
+					FabricItemGroup.builder().displayName(Text.translatable("itemgroup.miskatonicmysteries"))
+		.icon(() -> new ItemStack(MMObjects.NECRONOMICON)).entries((displayContext, entries) -> {
+			for (Item item : Registries.ITEM) {
+				if (Registries.ITEM.getId(item).getNamespace().equals(MOD_ID)) {
 					if (item.equals(BlockItem.fromBlock(MMObjects.POWER_CELL))) {
-						list.add(PowerCellBlock.getFilledStack());
+						entries.add(PowerCellBlock.getFilledStack());
 					} else {
-						list.add(new ItemStack(item));
+						entries.add(new ItemStack(item));
 					}
 				}
 			}
 		})
-		.build();
+		.build());
 	public static final float BLOCK_BIT = 0.0625F;
 
 	public static class Tags {
 
-		public static final TagKey<Item> ALTAR_BOOKS = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "altar_books"));
-		public static final TagKey<Item> OCEANIC_GOLD_BLOCKS_ITEM = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "oceanic_gold_blocks"));
-		public static final TagKey<Block> OCEANIC_GOLD_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "oceanic_gold_blocks"));
-		public static final TagKey<Block> SUBTLE_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "subtle_blocks"));
-		public static final TagKey<Block> SUSPICIOUS_BLOCKS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "suspicious_blocks"));
-		public static final TagKey<Block> STABILIZERS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "stabilizers"));
-		public static final TagKey<Block> WEAK_STABILIZERS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "weak_stabilizers"));
-		public static final TagKey<Block> STRONG_STABILIZERS = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "strong_stabilizers"));
+		public static final TagKey<Item> ALTAR_BOOKS = TagKey.of(Registries.ITEM.getKey(), new Identifier(MOD_ID, "altar_books"));
+		public static final TagKey<Item> OCEANIC_GOLD_BLOCKS_ITEM = TagKey.of(Registries.ITEM.getKey(), new Identifier(MOD_ID, "oceanic_gold_blocks"));
+		public static final TagKey<Block> OCEANIC_GOLD_BLOCKS = TagKey.of(Registries.BLOCK.getKey(), new Identifier(MOD_ID, "oceanic_gold_blocks"));
+		public static final TagKey<Block> SUBTLE_BLOCKS = TagKey.of(Registries.BLOCK.getKey(), new Identifier(MOD_ID, "subtle_blocks"));
+		public static final TagKey<Block> SUSPICIOUS_BLOCKS = TagKey.of(Registries.BLOCK.getKey(), new Identifier(MOD_ID, "suspicious_blocks"));
+		public static final TagKey<Block> STABILIZERS = TagKey.of(Registries.BLOCK.getKey(), new Identifier(MOD_ID, "stabilizers"));
+		public static final TagKey<Block> WEAK_STABILIZERS = TagKey.of(Registries.BLOCK.getKey(), new Identifier(MOD_ID, "weak_stabilizers"));
+		public static final TagKey<Block> STRONG_STABILIZERS = TagKey.of(Registries.BLOCK.getKey(), new Identifier(MOD_ID, "strong_stabilizers"));
 
-		public static final TagKey<Block> PILLAR_BOTTOM = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "pillar_bottom"));
-		public static final TagKey<Block> PILLAR_MIDDLE = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "pillar_middle"));
-		public static final TagKey<Block> PILLAR_TOP = TagKey.of(Registry.BLOCK_KEY, new Identifier(MOD_ID, "pillar_top"));
+		public static final TagKey<Block> PILLAR_BOTTOM = TagKey.of(Registries.BLOCK.getKey(), new Identifier(MOD_ID, "pillar_bottom"));
+		public static final TagKey<Block> PILLAR_MIDDLE = TagKey.of(Registries.BLOCK.getKey(), new Identifier(MOD_ID, "pillar_middle"));
+		public static final TagKey<Block> PILLAR_TOP = TagKey.of(Registries.BLOCK.getKey(), new Identifier(MOD_ID, "pillar_top"));
 
 
-		public static final TagKey<Item> RED_MEAT = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "red_meat"));
-		public static final TagKey<Item> YELLOW_DYE = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "yellow_dye"));
-		public static final TagKey<Item> RITE_TOOLS = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "rite_tools"));
-		public static final TagKey<Item> GROSS_FOOD = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "gross_food"));
-		public static final TagKey<Item> WARDING_MARK_DYE = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "warding_mark_dye"));
-		public static final TagKey<Item> CULTIST_ARMOR = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "cultist_armor"));
+		public static final TagKey<Item> RED_MEAT = TagKey.of(Registries.ITEM.getKey(), new Identifier(MOD_ID, "red_meat"));
+		public static final TagKey<Item> YELLOW_DYE = TagKey.of(Registries.ITEM.getKey(), new Identifier(MOD_ID, "yellow_dye"));
+		public static final TagKey<Item> RITE_TOOLS = TagKey.of(Registries.ITEM.getKey(), new Identifier(MOD_ID, "rite_tools"));
+		public static final TagKey<Item> GROSS_FOOD = TagKey.of(Registries.ITEM.getKey(), new Identifier(MOD_ID, "gross_food"));
+		public static final TagKey<Item> WARDING_MARK_DYE = TagKey.of(Registries.ITEM.getKey(), new Identifier(MOD_ID, "warding_mark_dye"));
+		public static final TagKey<Item> CULTIST_ARMOR = TagKey.of(Registries.ITEM.getKey(), new Identifier(MOD_ID, "cultist_armor"));
 
-		public static final TagKey<Item> HASTUR_CULTIST_OFFERINGS = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "hastur_cultist_offerings"));
-		public static final TagKey<Item> HASTUR_STATUES = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "hastur_statues"));
+		public static final TagKey<Item> HASTUR_CULTIST_OFFERINGS = TagKey.of(Registries.ITEM.getKey(), new Identifier(MOD_ID, "hastur_cultist_offerings"));
+		public static final TagKey<Item> HASTUR_STATUES = TagKey.of(Registries.ITEM.getKey(), new Identifier(MOD_ID, "hastur_statues"));
 
-		public static final TagKey<Item> IDOLS = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "idols"));
-		public static final TagKey<Item> ELDERIAN_BLOCKS_ITEM = TagKey.of(Registry.ITEM_KEY, new Identifier(MOD_ID, "elderian_blocks"));
+		public static final TagKey<Item> IDOLS = TagKey.of(Registries.ITEM.getKey(), new Identifier(MOD_ID, "idols"));
+		public static final TagKey<Item> ELDERIAN_BLOCKS_ITEM = TagKey.of(Registries.ITEM.getKey(), new Identifier(MOD_ID, "elderian_blocks"));
 
-		public static final TagKey<EntityType<?>> BURNED_VEIL_MOBS = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "burned_veil_mobs"));
-		public static final TagKey<EntityType<?>> BROKEN_VEIL_MOBS = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "broken_veil_mobs"));
-		public static final TagKey<EntityType<?>> VALID_SACRIFICES = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "valid_sacrifices"));
+		public static final TagKey<EntityType<?>> BURNED_VEIL_MOBS = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier(MOD_ID, "burned_veil_mobs"));
+		public static final TagKey<EntityType<?>> BROKEN_VEIL_MOBS = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier(MOD_ID, "broken_veil_mobs"));
+		public static final TagKey<EntityType<?>> VALID_SACRIFICES = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier(MOD_ID, "valid_sacrifices"));
 
 		public static final TagKey<SpellEffect> RIFT_SPELLS = TagKey.of(MMRegistries.SPELL_EFFECTS.getKey(), new Identifier(MOD_ID, "rift_spells"));
-		public static final TagKey<StatusEffect> RIFT_EFFECTS = TagKey.of(Registry.MOB_EFFECT_KEY, new Identifier(MOD_ID, "rift_effects"));
-		public static final TagKey<EntityType<?>> RIFT_ENTITIES = TagKey.of(Registry.ENTITY_TYPE_KEY, new Identifier(MOD_ID, "rift_entities"));
+		public static final TagKey<StatusEffect> RIFT_EFFECTS = TagKey.of(Registries.STATUS_EFFECT.getKey(), new Identifier(MOD_ID, "rift_effects"));
+		public static final TagKey<EntityType<?>> RIFT_ENTITIES = TagKey.of(Registries.ENTITY_TYPE.getKey(), new Identifier(MOD_ID, "rift_entities"));
 
-		public static final TagKey<BannerPattern> YELLOW_SIGN_PATTERN_ITEM = TagKey.of(Registry.BANNER_PATTERN_KEY, new Identifier(MOD_ID, "pattern_item/yellow_sign"));
+		public static final TagKey<BannerPattern> YELLOW_SIGN_PATTERN_ITEM = TagKey.of(Registries.BANNER_PATTERN.getKey(), new Identifier(MOD_ID, "pattern_item/yellow_sign"));
 	}
 
 	public static class NBT {
@@ -218,10 +217,10 @@ public class Constants {
 
 		public static final TrackedData<Float> RESONANCE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	}
-
+	//todo set Sleep and Feaster Damage to bypass armor (use tags)
 	public static class DamageSources extends DamageSource {
 
-		public static final DamageSource SLEEP = new DamageSources("sleep").setBypassesArmor();
+		public static final DamageSource SLEEP = new DamageSources("sleep");
 		public static final DamageSource INSANITY = new DamageSources("insanity") {
 			@Override
 			public Text getDeathMessage(LivingEntity entity) {
@@ -235,7 +234,7 @@ public class Constants {
 			super(Constants.MOD_ID + "." + name);
 		}
 
-		public static class ProtagonistDamageSource extends EntityDamageSource {
+		public static class ProtagonistDamageSource extends DamageSource {
 
 			public ProtagonistDamageSource(@Nullable Entity source) {
 				super(Constants.MOD_ID + ".protagonist", source);
@@ -252,7 +251,6 @@ public class Constants {
 
 			public FeasterDamageSource(@Nullable Entity source) {
 				super(Constants.MOD_ID + ".feaster", source);
-				setBypassesArmor();
 			}
 
 		}
@@ -260,8 +258,8 @@ public class Constants {
 
 	public static class BlockSettings {
 
-		public static final AbstractBlock.Settings OCEANIC_GOLD = AbstractBlock.Settings.of(Material.METAL).strength(1F, 5F).requiresTool();
-		public static final AbstractBlock.Settings ELDERIAN = AbstractBlock.Settings.of(Material.STONE).strength(1F, 5F).requiresTool();
+		public static final AbstractBlock.Settings OCEANIC_GOLD = AbstractBlock.Settings.create().strength(1F, 5F).requiresTool().sounds(BlockSoundGroup.METAL);
+		public static final AbstractBlock.Settings ELDERIAN = AbstractBlock.Settings.create().strength(1F, 5F).requiresTool().sounds(BlockSoundGroup.STONE);
 	}
 
 	public static class Misc {

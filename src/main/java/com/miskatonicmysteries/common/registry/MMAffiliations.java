@@ -2,8 +2,9 @@ package com.miskatonicmysteries.common.registry;
 
 import com.miskatonicmysteries.api.registry.Affiliation;
 
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+
 
 import static com.miskatonicmysteries.common.util.Constants.MOD_ID;
 

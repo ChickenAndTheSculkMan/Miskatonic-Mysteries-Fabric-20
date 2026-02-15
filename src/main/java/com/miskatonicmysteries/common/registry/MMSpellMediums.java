@@ -8,7 +8,7 @@ import com.miskatonicmysteries.common.feature.spell.medium.ProjectileSpellMedium
 import com.miskatonicmysteries.common.feature.spell.medium.SelfSpellMedium;
 import com.miskatonicmysteries.common.feature.spell.medium.VisionSpellMedium;
 
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 public class MMSpellMediums {
 

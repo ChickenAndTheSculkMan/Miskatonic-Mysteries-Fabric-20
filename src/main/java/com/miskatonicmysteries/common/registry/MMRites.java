@@ -20,7 +20,7 @@ import com.miskatonicmysteries.common.feature.recipe.rite.TeleportRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.summon.ByakheeSummoningRite;
 import com.miskatonicmysteries.common.feature.recipe.rite.summon.PrinceSummoningRite;
 
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 public class MMRites {
 

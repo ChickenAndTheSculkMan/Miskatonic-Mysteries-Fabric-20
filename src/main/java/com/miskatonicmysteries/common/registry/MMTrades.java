@@ -24,7 +24,8 @@ import static com.miskatonicmysteries.common.registry.MMStatusEffects.MANIA;
 import static com.miskatonicmysteries.common.registry.MMStatusEffects.TRANQUILIZED;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
 
 public class MMTrades {
 

@@ -18,7 +18,8 @@ import net.minecraft.client.texture.AbstractTexture;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.texture.TextureManager;
 import net.minecraft.particle.DefaultParticleType;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.world.World;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -35,13 +36,13 @@ public class MMParticles {
 	public static final DefaultParticleType WEIRD_CUBE = FabricParticleTypes.simple(true);
 
 	public static void init() {
-		RegistryUtil.register(Registry.PARTICLE_TYPE, "flame", FLAME);
-		RegistryUtil.register(Registry.PARTICLE_TYPE, "ambient", AMBIENT);
-		RegistryUtil.register(Registry.PARTICLE_TYPE, "ambient_magic", AMBIENT_MAGIC);
-		RegistryUtil.register(Registry.PARTICLE_TYPE, "magic_shrinking", SHRINKING_MAGIC);
-		RegistryUtil.register(Registry.PARTICLE_TYPE, "blood", DRIPPING_BLOOD);
-		RegistryUtil.register(Registry.PARTICLE_TYPE, "resonator_creature", RESONATOR_CREATURE);
-		RegistryUtil.register(Registry.PARTICLE_TYPE, "weird_cube", WEIRD_CUBE);
+		RegistryUtil.register(Registries.PARTICLE_TYPE, "flame", FLAME);
+		RegistryUtil.register(Registries.PARTICLE_TYPE, "ambient", AMBIENT);
+		RegistryUtil.register(Registries.PARTICLE_TYPE, "ambient_magic", AMBIENT_MAGIC);
+		RegistryUtil.register(Registries.PARTICLE_TYPE, "magic_shrinking", SHRINKING_MAGIC);
+		RegistryUtil.register(Registries.PARTICLE_TYPE, "blood", DRIPPING_BLOOD);
+		RegistryUtil.register(Registries.PARTICLE_TYPE, "resonator_creature", RESONATOR_CREATURE);
+		RegistryUtil.register(Registries.PARTICLE_TYPE, "weird_cube", WEIRD_CUBE);
 	}
 
 
@@ -61,7 +62,7 @@ public class MMParticles {
 				RenderSystem.depthMask(false);
 				RenderSystem.enableBlend();
 				RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-				RenderSystem.setShader(GameRenderer::getParticleShader);
+				RenderSystem.setShader(GameRenderer::getParticleProgram);
 				RenderSystem.setShaderTexture(0, SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
 				AbstractTexture tex = textureManager.getTexture(SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
 				tex.setFilter(true, false);

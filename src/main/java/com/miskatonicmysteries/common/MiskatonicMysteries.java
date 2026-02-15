@@ -23,7 +23,13 @@ public class MiskatonicMysteries implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		MMMidnightLibConfig.init(Constants.MOD_ID, MMMidnightLibConfig.class);
-		GeckoLibMod.DISABLE_IN_DEV = true;
+		/*todo The Disable in Dev Method is missing, fix later
+		*todo fix MMWorld
+		*todo kill energy
+		*todo fix MMSounds
+		*todo fix various util issues
+		*GeckoLibMod.DISABLE_IN_DEV = true;
+		*/
 		MMAffiliations.init();
 		MMBlessings.init();
 		MMObjects.init();

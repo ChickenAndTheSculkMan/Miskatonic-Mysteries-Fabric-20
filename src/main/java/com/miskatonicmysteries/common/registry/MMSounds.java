@@ -3,13 +3,13 @@ package com.miskatonicmysteries.common.registry;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 public class MMSounds {
-
 	//todo more entity sounds
 	public static final SoundEvent AMBIENT_SCARY = new SoundEvent(new Identifier(Constants.MOD_ID, "ambient.scary"));
 	public static final SoundEvent BLOCK_RESONATOR_AMBIENT = new SoundEvent(new Identifier(Constants.MOD_ID, "block.resonator.ambient"));
@@ -51,6 +51,6 @@ public class MMSounds {
 	}
 
 	private static void register(SoundEvent event) {
-		RegistryUtil.register(Registry.SOUND_EVENT, event.getId().getPath(), event);
+		RegistryUtil.register(Registries.SOUND_EVENT, event.getId().getPath(), event);
 	}
 }

@@ -49,6 +49,7 @@ import com.miskatonicmysteries.common.feature.item.consumable.TranquilizerItem;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 
 import net.minecraft.block.AbstractBlock;
@@ -56,7 +57,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.MapColor;
-import net.minecraft.block.Material;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.WallBlock;
 import net.minecraft.block.entity.BannerPattern;
@@ -66,14 +66,13 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.SpawnEggItem;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.registry.Registry;
-
-import net.minecraft.util.registry.RegistryEntry;
-import team.reborn.energy.api.EnergyStorage;
+import net.minecraft.registry.Registry;
 
 public class MMObjects {
 
@@ -115,10 +114,10 @@ public class MMObjects {
 	public static final OctagramBlock YOG_OCTAGRAM = new OctagramBlock(MMAffiliations.YOG);
 
 	public static final ChalkItem CTHULHU_CHALK = new ChalkItem(CTHULHU_OCTAGRAM,
-																new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
-	public static final ChalkItem HASTUR_CHALK = new ChalkItem(HASTUR_OCTAGRAM, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
-	public static final ChalkItem SHUB_CHALK = new ChalkItem(SHUB_OCTAGRAM, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
-	public static final ChalkItem YOG_CHALK = new ChalkItem(YOG_OCTAGRAM, new Item.Settings().group(Constants.MM_GROUP).maxDamage(4));
+																new FabricItemSettings().maxDamage(4));
+	public static final ChalkItem HASTUR_CHALK = new ChalkItem(HASTUR_OCTAGRAM, new FabricItemSettings().maxDamage(4));
+	public static final ChalkItem SHUB_CHALK = new ChalkItem(SHUB_OCTAGRAM, new FabricItemSettings().maxDamage(4));
+	public static final ChalkItem YOG_CHALK = new ChalkItem(YOG_OCTAGRAM, new FabricItemSettings().maxDamage(4));
 	public static final BlockEntityType<OctagramBlockEntity> OCTAGRAM_BLOCK_ENTITY_TYPE = FabricBlockEntityTypeBuilder
 		.create(OctagramBlockEntity::new, OctagramBlock.OCTAGRAMS.toArray(new OctagramBlock[OctagramBlock.OCTAGRAMS.size()])).build(null);
 	public static final StatueBlock CTHULHU_STATUE_GOLD = new StatueBlock(MMAffiliations.CTHULHU, true,
@@ -274,9 +273,7 @@ public class MMObjects {
 
 	public static final Block INFESTED_WHEAT_CROP = new InfestedWheatCropBlock();
 	public static final Block BIRCH_LOG = new PillarBlock(AbstractBlock.Settings
-															  .of(Material.WOOD, (blockState) -> blockState.get(PillarBlock.AXIS) == Direction.Axis.Y
-																								 ? MapColor.PALE_YELLOW : MapColor.WHITE)
-															  .strength(2.0F).sounds(BlockSoundGroup.WOOD));
+															  .create().strength(2.0F).sounds(BlockSoundGroup.WOOD).mapColor(MapColor.PALE_YELLOW));
 
 	public static RegistryEntry<BannerPattern> YELLOW_SIGN_BANNER;
 
@@ -285,17 +282,17 @@ public class MMObjects {
 
 	public static final MMBookItem SCIENCE_JOURNAL = new MMBookItem(new Identifier(Constants.MOD_ID, "science_journal"),
 																	MMAffiliations.NONE, false,
-																	new Item.Settings().maxCount(1).group(Constants.MM_GROUP));
+																	new FabricItemSettings().maxCount(1));
 	public static final MMBookItem NECRONOMICON = new MMBookItem(new Identifier(Constants.MOD_ID, "necronomicon"), MMAffiliations.NONE,
-																 true, new Item.Settings().maxCount(1).group(Constants.MM_GROUP));
+																 true, new FabricItemSettings().maxCount(1));
 
-	public static final Item OCEANIC_GOLD = new Item(new Item.Settings().group(Constants.MM_GROUP));
+	public static final Item OCEANIC_GOLD = new Item(new FabricItemSettings());
 
 	public static final Item RIFLE = new RifleItem();
 	public static final Item REVOLVER = new RevolverItem();
-	public static final Item BULLET = new Item(new Item.Settings().group(Constants.MM_GROUP));
+	public static final Item BULLET = new Item(new FabricItemSettings());
 
-	public static final Item SYRINGE = new Item(new Item.Settings().group(Constants.MM_GROUP));
+	public static final Item SYRINGE = new Item(new FabricItemSettings());
 
 	public static final Item INFESTED_WHEAT = new InfestedWheatItem();
 
@@ -310,51 +307,51 @@ public class MMObjects {
 	public static final Item ORNATE_DAGGER = new BlessedSwordItem(MMAffiliations.HASTUR, 2, -2.3F,
 																  (target, attacker) -> target.addStatusEffect(
 																	  new StatusEffectInstance(MMStatusEffects.MANIA, 100, 1, true, false, false)),
-																  new Item.Settings().group(Constants.MM_GROUP));
+																  new FabricItemSettings());
 	public static final Item GUTTING_DAGGER = new BlessedSwordItem(MMAffiliations.SHUB, 3, -2.6F,
 																   (target, attacker) -> target.addStatusEffect(
 																	   new StatusEffectInstance(MMStatusEffects.BLEED, 600, 0, false, false, false)),
-																   new Item.Settings().group(Constants.MM_GROUP));
+																   new FabricItemSettings());
 	public static final Item HORNED_DAGGER = new BlessedSwordItem(MMAffiliations.SHUB, 4, -2.3F, (target, attacker) -> {
 	},
-																  new Item.Settings().group(Constants.MM_GROUP));
+																  new FabricItemSettings());
 	public static final Item FISHY_DAGGER = new BlessedSwordItem(MMAffiliations.CTHULHU, 3, -2.3F,
 																 (target, attacker) -> target.addStatusEffect(
 																	 new StatusEffectInstance(StatusEffects.POISON, 100, 0, false, true, true)),
-																 new Item.Settings().group(Constants.MM_GROUP));
+																 new FabricItemSettings());
 
 	public static final Item STELLAR_DAGGER = new BlessedSwordItem(MMAffiliations.YOG, 3, -2.3F,
 																   (target, attacker) -> target.addStatusEffect(
 																	   new StatusEffectInstance(StatusEffects.NAUSEA, 100, 0, false, true, true)),
-																   new Item.Settings().group(Constants.MM_GROUP));
+																   new FabricItemSettings());
 
 	public static final Item PROTAGONIST_SPAWN_EGG = new SpawnEggItem(MMEntities.PROTAGONIST, 4137472, 14592,
-																	  new Item.Settings().group(Constants.MM_GROUP));
+																	  new FabricItemSettings());
 	public static final Item HASTUR_CULTIST_SPAWN_EGG = new SpawnEggItem(MMEntities.HASTUR_CULTIST, 0xEAC800, 0xFFFFFF,
-																		 new Item.Settings().group(Constants.MM_GROUP));
+																		 new FabricItemSettings());
 	public static final Item PHANTASMA_SPAWN_EGG = new SpawnEggItem(MMEntities.PHANTASMA, 0x77329F, 0xDA329F,
-																	new Item.Settings().group(Constants.MM_GROUP));
+																	new FabricItemSettings());
 	public static final Item ABERRATION_SPAWN_EGG = new SpawnEggItem(MMEntities.ABERRATION, 0x77329F, 0x8c2066,
-																	 new Item.Settings().group(Constants.MM_GROUP));
+																	 new FabricItemSettings());
 	public static final Item BYAKHEE_SPAWN_EGG = new SpawnEggItem(MMEntities.BYAKHEE, 0x5a6049, 0xEAC800,
-																  new Item.Settings().group(Constants.MM_GROUP));
+																  new FabricItemSettings());
 	public static final Item TATTERED_PRINCE_SPAWN_EGG = new SpawnEggItem(MMEntities.TATTERED_PRINCE, 0xEAC800, 0xFF0000,
-																		  new Item.Settings().group(Constants.MM_GROUP));
+																		  new FabricItemSettings());
 	public static final Item TENTACLE_SPAWN_EGG = new SpawnEggItem(MMEntities.GENERIC_TENTACLE, 0xf9da5c, 0xefc623,
-																   new Item.Settings().group(Constants.MM_GROUP));
+																   new FabricItemSettings());
 	public static final Item HARROW_SPAWN_EGG = new SpawnEggItem(MMEntities.HARROW, 0xefc623, 0xf9da5c,
-																 new Item.Settings().group(Constants.MM_GROUP));
+																 new FabricItemSettings());
 	public static final Item TINDALOS_HOUND_SPAWN_EGG = new SpawnEggItem(MMEntities.TINDALOS_HOUND, 0x0b5c8c, 0x284b7f,
-																		 new Item.Settings().group(Constants.MM_GROUP));
+																		 new FabricItemSettings());
 	public static final Item FEASTER_SPAWN_EGG = new SpawnEggItem(MMEntities.FEASTER, 0xB87F2A, 0x702659,
-																  new Item.Settings().group(Constants.MM_GROUP));
+																  new FabricItemSettings());
 
 	public static final Item ELEGANT_MASK = new MaskTrinketItem(MMAffiliations.HASTUR, false,
-																new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
+																new FabricItemSettings().maxCount(1));
 	public static final Item FERAL_MASK = new MaskTrinketItem(MMAffiliations.SHUB, false,
-															  new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
+															  new FabricItemSettings().maxCount(1));
 	public static final Item WILD_MASK = new MaskTrinketItem(MMAffiliations.SHUB, false,
-															 new Item.Settings().group(Constants.MM_GROUP).maxCount(1));
+															 new FabricItemSettings().maxCount(1));
 
 	public static final Item YELLOW_HOOD = new HasturCultistArmor(EquipmentSlot.HEAD);
 	public static final Item YELLOW_ROBE = new HasturCultistArmor(EquipmentSlot.CHEST);
@@ -366,8 +363,8 @@ public class MMObjects {
 
 	public static final Item INCANTATION_YOG = new IncantationYogItem();
 
-	public static final Item IRIDESCENT_PEARL = new Item(new Item.Settings().group(Constants.MM_GROUP));
-	public static final Item RESONATE_OOZE = new Item(new Item.Settings().group(Constants.MM_GROUP));
+	public static final Item IRIDESCENT_PEARL = new Item(new FabricItemSettings());
+	public static final Item RESONATE_OOZE = new Item(new FabricItemSettings());
 
 	public static final Item CHEMICAL_FUEL = new ChemicalFuelItem();
 
@@ -382,10 +379,10 @@ public class MMObjects {
 	public static void init() {
 		ComposterBlock.ITEM_TO_LEVEL_INCREASE_CHANCE.put(MMObjects.INFESTED_WHEAT, 0.7F);
 
-		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "chemistry_set", CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
+		RegistryUtil.register(Registries.BLOCK_ENTITY_TYPE, "chemistry_set", CHEMISTRY_SET_BLOCK_ENTITY_TYPE);
 		RegistryUtil.registerBlock(CHEMISTRY_SET, "chemistry_set");
 
-		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "altar", ALTAR_BLOCK_ENTITY_TYPE);
+		RegistryUtil.register(Registries.BLOCK_ENTITY_TYPE, "altar", ALTAR_BLOCK_ENTITY_TYPE);
 		RegistryUtil.registerBlock(BLACKSTONE_ALTAR, "blackstone_altar");
 		RegistryUtil.registerBlock(CORAL_ALTAR, "coral_altar");
 		RegistryUtil.registerBlock(FUNKY_ALTAR, "funky_altar");
@@ -396,18 +393,18 @@ public class MMObjects {
 		RegistryUtil.registerBlock(STONE_ALTAR, "stone_altar");
 		RegistryUtil.registerBlock(DEEPSLATE_ALTAR, "deepslate_altar");
 
-		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "octagram", OCTAGRAM_BLOCK_ENTITY_TYPE);
-		RegistryUtil.register(Registry.BLOCK, "octagram_sides", OCTAGRAM_SIDES);
+		RegistryUtil.register(Registries.BLOCK_ENTITY_TYPE, "octagram", OCTAGRAM_BLOCK_ENTITY_TYPE);
+		RegistryUtil.register(Registries.BLOCK, "octagram_sides", OCTAGRAM_SIDES);
 
-		RegistryUtil.register(Registry.BLOCK, "cthulhu_octagram", CTHULHU_OCTAGRAM);
-		RegistryUtil.register(Registry.BLOCK, "hastur_octagram", HASTUR_OCTAGRAM);
-		RegistryUtil.register(Registry.BLOCK, "shub_octagram", SHUB_OCTAGRAM);
-		RegistryUtil.register(Registry.BLOCK, "yog_octagram", YOG_OCTAGRAM);
-		RegistryUtil.register(Registry.ITEM, "cthulhu_chalk", CTHULHU_CHALK);
-		RegistryUtil.register(Registry.ITEM, "hastur_chalk", HASTUR_CHALK);
-		RegistryUtil.register(Registry.ITEM, "shub_chalk", SHUB_CHALK);
-		RegistryUtil.register(Registry.ITEM, "yog_chalk", YOG_CHALK);
-		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "statue", STATUE_BLOCK_ENTITY_TYPE);
+		RegistryUtil.register(Registries.BLOCK, "cthulhu_octagram", CTHULHU_OCTAGRAM);
+		RegistryUtil.register(Registries.BLOCK, "hastur_octagram", HASTUR_OCTAGRAM);
+		RegistryUtil.register(Registries.BLOCK, "shub_octagram", SHUB_OCTAGRAM);
+		RegistryUtil.register(Registries.BLOCK, "yog_octagram", YOG_OCTAGRAM);
+		RegistryUtil.register(Registries.ITEM, "cthulhu_chalk", CTHULHU_CHALK);
+		RegistryUtil.register(Registries.ITEM, "hastur_chalk", HASTUR_CHALK);
+		RegistryUtil.register(Registries.ITEM, "shub_chalk", SHUB_CHALK);
+		RegistryUtil.register(Registries.ITEM, "yog_chalk", YOG_CHALK);
+		RegistryUtil.register(Registries.BLOCK_ENTITY_TYPE, "statue", STATUE_BLOCK_ENTITY_TYPE);
 		RegistryUtil.registerBlock(CTHULHU_STATUE_GOLD, "cthulhu_statue_gold");
 		RegistryUtil.registerBlock(CTHULHU_STATUE_MOSSY, "cthulhu_statue_mossy");
 		RegistryUtil.registerBlock(CTHULHU_STATUE_PRISMARINE, "cthulhu_statue_prismarine");
@@ -430,12 +427,12 @@ public class MMObjects {
 		RegistryUtil.registerBlock(YOG_STATUE_STONE, "yog_statue_stone");
 		RegistryUtil.registerBlock(YOG_STATUE_ELDERIAN, "yog_statue_elderian");
 
-		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "masterpiece_statue", MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE);
-		RegistryUtil.register(Registry.BLOCK, "masterpiece_statue", MASTERPIECE_STATUE);
-		RegistryUtil.register(Registry.ITEM, "masterpiece_statue", new MasterpieceStatueBlock.MasterpieceStatueBlockItem());
+		RegistryUtil.register(Registries.BLOCK_ENTITY_TYPE, "masterpiece_statue", MASTERPIECE_STATUE_BLOCK_ENTITY_TYPE);
+		RegistryUtil.register(Registries.BLOCK, "masterpiece_statue", MASTERPIECE_STATUE);
+		RegistryUtil.register(Registries.ITEM, "masterpiece_statue", new MasterpieceStatueBlock.MasterpieceStatueBlockItem());
 
-		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "hastur_obelisk", HASTUR_OBELISK_BLOCK_ENTITY_TYPE);
-		RegistryUtil.register(Registry.BLOCK, "hastur_obelisk", HASTUR_OBELISK);
+		RegistryUtil.register(Registries.BLOCK_ENTITY_TYPE, "hastur_obelisk", HASTUR_OBELISK_BLOCK_ENTITY_TYPE);
+		RegistryUtil.register(Registries.BLOCK, "hastur_obelisk", HASTUR_OBELISK);
 
 		RegistryUtil.registerBlock(STONE_CTHULHU_MURAL, "stone_cthulhu_mural");
 		RegistryUtil.registerBlock(MOSSY_CTHULHU_MURAL, "mossy_cthulhu_mural");
@@ -500,16 +497,16 @@ public class MMObjects {
 		RegistryUtil.registerBlock(ELDERIAN_STONE_SMOOTH_SLAB, "elderian_stone_smooth_slab");
 		RegistryUtil.registerBlock(ELDERIAN_STONE_SMOOTH_WALL, "elderian_stone_smooth_wall");
 
-		RegistryUtil.register(Registry.BLOCK, "yellow_sign", YELLOW_SIGN);
-		RegistryUtil.register(Registry.BLOCK, "warding_mark", WARDING_MARK);
-		RegistryUtil.register(Registry.BLOCK, "birch_log", BIRCH_LOG);
-		RegistryUtil.register(Registry.BLOCK, "infested_wheat", INFESTED_WHEAT_CROP);
+		RegistryUtil.register(Registries.BLOCK, "yellow_sign", YELLOW_SIGN);
+		RegistryUtil.register(Registries.BLOCK, "warding_mark", WARDING_MARK);
+		RegistryUtil.register(Registries.BLOCK, "birch_log", BIRCH_LOG);
+		RegistryUtil.register(Registries.BLOCK, "infested_wheat", INFESTED_WHEAT_CROP);
 
-		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "resonator", RESONATOR_BLOCK_ENTITY_TYPE);
+		RegistryUtil.register(Registries.BLOCK_ENTITY_TYPE, "resonator", RESONATOR_BLOCK_ENTITY_TYPE);
 		RegistryUtil.registerBlock(RESONATOR, "resonator");
 		EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage.getSideStorage(direction),
 												   RESONATOR_BLOCK_ENTITY_TYPE);
-		RegistryUtil.register(Registry.BLOCK_ENTITY_TYPE, "power_cell", POWER_CELL_BLOCK_ENTITY_TYPE);
+		RegistryUtil.register(Registries.BLOCK_ENTITY_TYPE, "power_cell", POWER_CELL_BLOCK_ENTITY_TYPE);
 		RegistryUtil.registerBlock(POWER_CELL, "power_cell");
 		EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> blockEntity.energyStorage.getSideStorage(direction),
 												   POWER_CELL_BLOCK_ENTITY_TYPE);
@@ -517,67 +514,67 @@ public class MMObjects {
 		YELLOW_SIGN_BANNER = RegistryUtil.registerPattern("yellow_sign", "ys");
 
 
-		RegistryUtil.register(Registry.ITEM, "yellow_sign_banner_pattern", YELLOW_SIGN_LOOM_PATTERN);
+		RegistryUtil.register(Registries.ITEM, "yellow_sign_banner_pattern", YELLOW_SIGN_LOOM_PATTERN);
 
-		RegistryUtil.register(Registry.ITEM, "science_journal", SCIENCE_JOURNAL);
-		RegistryUtil.register(Registry.ITEM, "necronomicon", NECRONOMICON);
+		RegistryUtil.register(Registries.ITEM, "science_journal", SCIENCE_JOURNAL);
+		RegistryUtil.register(Registries.ITEM, "necronomicon", NECRONOMICON);
 
-		RegistryUtil.register(Registry.ITEM, "oceanic_gold", OCEANIC_GOLD);
+		RegistryUtil.register(Registries.ITEM, "oceanic_gold", OCEANIC_GOLD);
 
-		RegistryUtil.register(Registry.ITEM, "rifle", RIFLE);
-		RegistryUtil.register(Registry.ITEM, "revolver", REVOLVER);
-		RegistryUtil.register(Registry.ITEM, "bullet", BULLET);
+		RegistryUtil.register(Registries.ITEM, "rifle", RIFLE);
+		RegistryUtil.register(Registries.ITEM, "revolver", REVOLVER);
+		RegistryUtil.register(Registries.ITEM, "bullet", BULLET);
 
-		RegistryUtil.register(Registry.ITEM, "syringe", SYRINGE);
-		RegistryUtil.register(Registry.ITEM, "infested_wheat", INFESTED_WHEAT);
-		RegistryUtil.register(Registry.ITEM, "blotter", BLOTTER);
-		RegistryUtil.register(Registry.ITEM, "potent_blotter", BLOTTER_POTENT);
-		RegistryUtil.register(Registry.ITEM, "laudanum", LAUDANUM);
-		RegistryUtil.register(Registry.ITEM, "tranquilizer", TRANQUILIZER);
-		RegistryUtil.register(Registry.ITEM, "re_agent_syringe", RE_AGENT_SYRINGE);
+		RegistryUtil.register(Registries.ITEM, "syringe", SYRINGE);
+		RegistryUtil.register(Registries.ITEM, "infested_wheat", INFESTED_WHEAT);
+		RegistryUtil.register(Registries.ITEM, "blotter", BLOTTER);
+		RegistryUtil.register(Registries.ITEM, "potent_blotter", BLOTTER_POTENT);
+		RegistryUtil.register(Registries.ITEM, "laudanum", LAUDANUM);
+		RegistryUtil.register(Registries.ITEM, "tranquilizer", TRANQUILIZER);
+		RegistryUtil.register(Registries.ITEM, "re_agent_syringe", RE_AGENT_SYRINGE);
 
-		RegistryUtil.register(Registry.ITEM, "ornate_dagger", ORNATE_DAGGER);
-		RegistryUtil.register(Registry.ITEM, "gutting_dagger", GUTTING_DAGGER);
-		RegistryUtil.register(Registry.ITEM, "horned_dagger", HORNED_DAGGER);
-		RegistryUtil.register(Registry.ITEM, "fishy_dagger", FISHY_DAGGER);
-		RegistryUtil.register(Registry.ITEM, "stellar_dagger", STELLAR_DAGGER);
+		RegistryUtil.register(Registries.ITEM, "ornate_dagger", ORNATE_DAGGER);
+		RegistryUtil.register(Registries.ITEM, "gutting_dagger", GUTTING_DAGGER);
+		RegistryUtil.register(Registries.ITEM, "horned_dagger", HORNED_DAGGER);
+		RegistryUtil.register(Registries.ITEM, "fishy_dagger", FISHY_DAGGER);
+		RegistryUtil.register(Registries.ITEM, "stellar_dagger", STELLAR_DAGGER);
 
-		RegistryUtil.register(Registry.ITEM, "protagonist_spawn_egg", PROTAGONIST_SPAWN_EGG);
-		RegistryUtil.register(Registry.ITEM, "hastur_cultist_spawn_egg", HASTUR_CULTIST_SPAWN_EGG);
-		RegistryUtil.register(Registry.ITEM, "phantasma_spawn_egg", PHANTASMA_SPAWN_EGG);
-		RegistryUtil.register(Registry.ITEM, "aberration_spawn_egg", ABERRATION_SPAWN_EGG);
-		RegistryUtil.register(Registry.ITEM, "byakhee_spawn_egg", BYAKHEE_SPAWN_EGG);
-		RegistryUtil.register(Registry.ITEM, "tattered_prince_spawn_egg", TATTERED_PRINCE_SPAWN_EGG);
-		RegistryUtil.register(Registry.ITEM, "tentacle_spawn_egg", TENTACLE_SPAWN_EGG);
-		RegistryUtil.register(Registry.ITEM, "harrow_spawn_egg", HARROW_SPAWN_EGG);
-		RegistryUtil.register(Registry.ITEM, "tindalos_hound_spawn_egg", TINDALOS_HOUND_SPAWN_EGG);
-		RegistryUtil.register(Registry.ITEM, "feaster_spawn_egg", FEASTER_SPAWN_EGG);
+		RegistryUtil.register(Registries.ITEM, "protagonist_spawn_egg", PROTAGONIST_SPAWN_EGG);
+		RegistryUtil.register(Registries.ITEM, "hastur_cultist_spawn_egg", HASTUR_CULTIST_SPAWN_EGG);
+		RegistryUtil.register(Registries.ITEM, "phantasma_spawn_egg", PHANTASMA_SPAWN_EGG);
+		RegistryUtil.register(Registries.ITEM, "aberration_spawn_egg", ABERRATION_SPAWN_EGG);
+		RegistryUtil.register(Registries.ITEM, "byakhee_spawn_egg", BYAKHEE_SPAWN_EGG);
+		RegistryUtil.register(Registries.ITEM, "tattered_prince_spawn_egg", TATTERED_PRINCE_SPAWN_EGG);
+		RegistryUtil.register(Registries.ITEM, "tentacle_spawn_egg", TENTACLE_SPAWN_EGG);
+		RegistryUtil.register(Registries.ITEM, "harrow_spawn_egg", HARROW_SPAWN_EGG);
+		RegistryUtil.register(Registries.ITEM, "tindalos_hound_spawn_egg", TINDALOS_HOUND_SPAWN_EGG);
+		RegistryUtil.register(Registries.ITEM, "feaster_spawn_egg", FEASTER_SPAWN_EGG);
 
-		RegistryUtil.register(Registry.ITEM, "elegant_mask", ELEGANT_MASK);
-		RegistryUtil.register(Registry.ITEM, "feral_mask", FERAL_MASK);
-		RegistryUtil.register(Registry.ITEM, "wild_mask", WILD_MASK);
+		RegistryUtil.register(Registries.ITEM, "elegant_mask", ELEGANT_MASK);
+		RegistryUtil.register(Registries.ITEM, "feral_mask", FERAL_MASK);
+		RegistryUtil.register(Registries.ITEM, "wild_mask", WILD_MASK);
 
-		RegistryUtil.register(Registry.ITEM, "yellow_hood", YELLOW_HOOD);
-		RegistryUtil.register(Registry.ITEM, "yellow_robe", YELLOW_ROBE);
-		RegistryUtil.register(Registry.ITEM, "yellow_skirt", YELLOW_SKIRT);
+		RegistryUtil.register(Registries.ITEM, "yellow_hood", YELLOW_HOOD);
+		RegistryUtil.register(Registries.ITEM, "yellow_robe", YELLOW_ROBE);
+		RegistryUtil.register(Registries.ITEM, "yellow_skirt", YELLOW_SKIRT);
 
-		RegistryUtil.register(Registry.ITEM, "dark_hood", DARK_HOOD);
-		RegistryUtil.register(Registry.ITEM, "dark_robe", DARK_ROBE);
-		RegistryUtil.register(Registry.ITEM, "dark_skirt", DARK_SKIRT);
+		RegistryUtil.register(Registries.ITEM, "dark_hood", DARK_HOOD);
+		RegistryUtil.register(Registries.ITEM, "dark_robe", DARK_ROBE);
+		RegistryUtil.register(Registries.ITEM, "dark_skirt", DARK_SKIRT);
 
-		RegistryUtil.register(Registry.ITEM, "incantation_yog", INCANTATION_YOG);
+		RegistryUtil.register(Registries.ITEM, "incantation_yog", INCANTATION_YOG);
 
-		RegistryUtil.register(Registry.ITEM, "the_orb", THE_ORB);
-		RegistryUtil.register(Registry.ITEM, "iridescent_pearl", IRIDESCENT_PEARL);
-		RegistryUtil.register(Registry.ITEM, "resonate_ooze", RESONATE_OOZE);
-		RegistryUtil.register(Registry.ITEM, "chemical_fuel", CHEMICAL_FUEL);
+		RegistryUtil.register(Registries.ITEM, "the_orb", THE_ORB);
+		RegistryUtil.register(Registries.ITEM, "iridescent_pearl", IRIDESCENT_PEARL);
+		RegistryUtil.register(Registries.ITEM, "resonate_ooze", RESONATE_OOZE);
+		RegistryUtil.register(Registries.ITEM, "chemical_fuel", CHEMICAL_FUEL);
 
-		RegistryUtil.register(Registry.ITEM, "cirrhosus_flesh", CIRRHOSUS_FLESH);
-		RegistryUtil.register(Registry.ITEM, "warded_paper", WARDED_PAPER);
+		RegistryUtil.register(Registries.ITEM, "cirrhosus_flesh", CIRRHOSUS_FLESH);
+		RegistryUtil.register(Registries.ITEM, "warded_paper", WARDED_PAPER);
 
-		RegistryUtil.register(Registry.ITEM, "hastur_bell", HASTUR_BELL);
-		RegistryUtil.register(Registry.ITEM, "enchanted_canvas", ENCHANTED_CANVAS);
+		RegistryUtil.register(Registries.ITEM, "hastur_bell", HASTUR_BELL);
+		RegistryUtil.register(Registries.ITEM, "enchanted_canvas", ENCHANTED_CANVAS);
 
-		RegistryUtil.register(Registry.ITEM, "absinthe", ABSINTHE);
+		RegistryUtil.register(Registries.ITEM, "absinthe", ABSINTHE);
 	}
 }

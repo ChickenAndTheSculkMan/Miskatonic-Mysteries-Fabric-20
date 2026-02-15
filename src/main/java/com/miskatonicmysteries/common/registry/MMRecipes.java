@@ -11,7 +11,8 @@ import com.miskatonicmysteries.common.util.RegistryUtil;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -28,12 +29,12 @@ public class MMRecipes {
 	public static final RecipeSerializer<AscensionLockedRecipe> ASCENSION_SERIALIZER = new AscensionLockedRecipe.Serializer();
 
 	public static void init() {
-		RegistryUtil.register(Registry.RECIPE_TYPE, "chemistry_recipe", CHEMISTRY_RECIPE);
-		RegistryUtil.register(Registry.RECIPE_SERIALIZER, "chemistry_recipe", CHEMISTRY_SERIALIZER);
-		RegistryUtil.register(Registry.RECIPE_TYPE, "rite_recipe", RITE_RECIPE);
-		RegistryUtil.register(Registry.RECIPE_SERIALIZER, "rite_recipe", RITE_SERIALIZER);
-		RegistryUtil.register(Registry.RECIPE_TYPE, "ascension_locked_recipe", ASCENSION_RECIPE);
-		RegistryUtil.register(Registry.RECIPE_SERIALIZER, "ascension_locked_recipe", ASCENSION_SERIALIZER);
+		RegistryUtil.register(Registries.RECIPE_TYPE, "chemistry_recipe", CHEMISTRY_RECIPE);
+		RegistryUtil.register(Registries.RECIPE_SERIALIZER, "chemistry_recipe", CHEMISTRY_SERIALIZER);
+		RegistryUtil.register(Registries.RECIPE_TYPE, "rite_recipe", RITE_RECIPE);
+		RegistryUtil.register(Registries.RECIPE_SERIALIZER, "rite_recipe", RITE_SERIALIZER);
+		RegistryUtil.register(Registries.RECIPE_TYPE, "ascension_locked_recipe", ASCENSION_RECIPE);
+		RegistryUtil.register(Registries.RECIPE_SERIALIZER, "ascension_locked_recipe", ASCENSION_SERIALIZER);
 	}
 
 	public static ChemistryRecipe getChemistryRecipe(ChemistrySetBlockEntity chemSet) {
@@ -53,7 +54,7 @@ public class MMRecipes {
 
 		@Override
 		public String toString() {
-			return Objects.requireNonNull(Registry.RECIPE_TYPE.getKey(this)).toString();
+			return Objects.requireNonNull(Registries.RECIPE_TYPE.getKey(this)).toString();
 		}
 	}
 }

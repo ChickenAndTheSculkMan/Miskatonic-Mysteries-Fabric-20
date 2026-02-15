@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Util {
 
@@ -53,14 +53,14 @@ public class Util {
 
 	public static void teleport(ServerWorld world, Entity target, double x, double y, double z, float yaw, float pitch) {
 		if (target instanceof ServerPlayerEntity) {
-			ChunkPos chunkPos = new ChunkPos(new BlockPos(x, y, z));
+			ChunkPos chunkPos = new ChunkPos(new BlockPos((int)x, (int)y, (int)z));
 			world.getChunkManager().addTicket(ChunkTicketType.POST_TELEPORT, chunkPos, 1, target.getId());
 			target.stopRiding();
 			if (((ServerPlayerEntity) target).isSleeping()) {
 				((ServerPlayerEntity) target).wakeUp(true, true);
 			}
 
-			if (world == target.world) {
+			if (world == target.getWorld()) {
 				((ServerPlayerEntity) target).networkHandler
 					.requestTeleport(x, y, z, yaw, pitch, EnumSet.noneOf(PlayerPositionLookS2CPacket.Flag.class));
 			} else {
@@ -72,7 +72,7 @@ public class Util {
 			float f = MathHelper.wrapDegrees(yaw);
 			float g = MathHelper.wrapDegrees(pitch);
 			g = MathHelper.clamp(g, -90.0F, 90.0F);
-			if (world == target.world) {
+			if (world == target.getWorld()) {
 				target.refreshPositionAndAngles(x, y, z, f, g);
 				target.setHeadYaw(f);
 			} else {

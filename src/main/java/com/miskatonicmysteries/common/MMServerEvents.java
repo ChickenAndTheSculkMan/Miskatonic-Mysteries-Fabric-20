@@ -31,10 +31,12 @@ import net.minecraft.block.BellBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.entity.mob.GuardianEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
@@ -127,7 +129,7 @@ public class MMServerEvents {
 	}
 
 	private static void onStopSleeping(LivingEntity entity, BlockPos sleepingPos) {
-		World world = entity.world;
+		World world = entity.getWorld();
 		if (!world.isClient && entity instanceof PlayerEntity p && p.canResetTimeBySleeping()) {
 			if (p instanceof BiomeAffected affected && affected.getCurrentBiomeEffect() == MMWorld.HASTUR_BIOME_EFFECT) {
 				HasturBiomeEffect.onWakeUp(p, sleepingPos);
@@ -149,15 +151,14 @@ public class MMServerEvents {
 									   CallbackInfoReturnable<Boolean> infoReturnable) {
 		if (source
 			.getAttacker() instanceof ProtagonistEntity && !(source instanceof Constants.DamageSources.ProtagonistDamageSource)) {
-			infoReturnable.setReturnValue(player
-											  .damage(new Constants.DamageSources.ProtagonistDamageSource(source.getAttacker()), amount));
+			infoReturnable.setReturnValue(player.damage(source.isOf(Constants.DamageSources.ProtagonistDamageSource)), amount);
 			return;
 		}
 		if (source.getAttacker() instanceof HallucinationEntity && source != Constants.DamageSources.INSANITY) {
 			infoReturnable.setReturnValue(player.damage(Constants.DamageSources.INSANITY, amount));
 			return;
 		}
-		if (source == DamageSource.LIGHTNING_BOLT) {
+		if (source == player.getDamageSources().lightningBolt()) {
 			SpellCaster.of(player).ifPresent(spellCaster -> {
 				if (!spellCaster.getLearnedMediums().contains(MMSpellMediums.BOLT)) {
 					spellCaster.learnMedium(MMSpellMediums.BOLT);
@@ -167,7 +168,8 @@ public class MMServerEvents {
 			return;
 		}
 
-		if (source.isMagic() && source.getAttacker() instanceof GuardianEntity) {
+		//Current Solution seems incredibly sketchy
+		if (source.isOf(DamageTypes.MAGIC) && source.getAttacker() instanceof GuardianEntity) {
 			SpellCaster.of(player).ifPresent(spellCaster -> {
 				if (!spellCaster.getLearnedMediums().contains(MMSpellMediums.VISION)) {
 					spellCaster.learnMedium(MMSpellMediums.VISION);
@@ -179,7 +181,7 @@ public class MMServerEvents {
 
 	public static boolean playerDamageDeath(PlayerEntity player, DamageSource source, float amount,
 											CallbackInfoReturnable<Boolean> infoReturnable) {
-		if (player.isDead() && !source.isOutOfWorld()) {
+		if (player.isDead() && !source.isOf(DamageTypes.OUT_OF_WORLD)) {
 			if (InventoryUtil.getSlotForItemInHotbar(player, MMObjects.RE_AGENT_SYRINGE) >= 0) {
 				player.getInventory().getStack(InventoryUtil.getSlotForItemInHotbar(player,
 																					MMObjects.RE_AGENT_SYRINGE)).decrement(1);

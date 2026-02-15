@@ -5,8 +5,8 @@ import com.miskatonicmysteries.common.feature.blessing.MagicBoostBlessing;
 import com.miskatonicmysteries.common.feature.blessing.RoyalEntourageBlessing;
 import com.miskatonicmysteries.common.util.Constants;
 
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class MMBlessings {
 

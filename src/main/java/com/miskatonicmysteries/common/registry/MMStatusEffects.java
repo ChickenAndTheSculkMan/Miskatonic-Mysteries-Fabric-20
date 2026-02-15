@@ -23,7 +23,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.Items;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
 
 public class MMStatusEffects {
 
@@ -42,22 +42,22 @@ public class MMStatusEffects {
 	public static final StatusEffect GREEN_FAIRY = new GreenFairyStatusEffect();
 
 	public static void init() {
-		RegistryUtil.register(Registry.STATUS_EFFECT, "mania", MANIA);
-		RegistryUtil.register(Registry.STATUS_EFFECT, "tranquilized", TRANQUILIZED);
-		RegistryUtil.register(Registry.STATUS_EFFECT, "overmedicated", OVERMEDICATED);
-		RegistryUtil.register(Registry.STATUS_EFFECT, "lazarus", LAZARUS);
-		RegistryUtil.register(Registry.STATUS_EFFECT, "bleed", BLEED);
-		RegistryUtil.register(Registry.STATUS_EFFECT, "resonance", RESONANCE);
-		RegistryUtil.register(Registry.STATUS_EFFECT, "exotic_cravings", EXOTIC_CRAVINGS);
-		RegistryUtil.register(Registry.STATUS_EFFECT, "ultra_violence", ULTRA_VIOLENCE);
-		RegistryUtil.register(Registry.STATUS_EFFECT, "clairvoyance", CLAIRVOYANCE);
-		RegistryUtil.register(Registry.STATUS_EFFECT, "othervibes", OTHERVIBES);
-		RegistryUtil.register(Registry.STATUS_EFFECT, "homely", HOMELY);
-		RegistryUtil.register(Registry.STATUS_EFFECT, "brain_drain", BRAIN_DRAIN);
-		RegistryUtil.register(Registry.STATUS_EFFECT, "green_fairy", GREEN_FAIRY);
-		RegistryUtil.register(Registry.POTION, "resonance", Potions.RESONANCE);
-		RegistryUtil.register(Registry.POTION, "resonance_long", Potions.LONG_RESONANCE);
-		RegistryUtil.register(Registry.POTION, "resonance_strong", Potions.STRONG_RESONANCE);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "mania", MANIA);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "tranquilized", TRANQUILIZED);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "overmedicated", OVERMEDICATED);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "lazarus", LAZARUS);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "bleed", BLEED);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "resonance", RESONANCE);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "exotic_cravings", EXOTIC_CRAVINGS);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "ultra_violence", ULTRA_VIOLENCE);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "clairvoyance", CLAIRVOYANCE);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "othervibes", OTHERVIBES);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "homely", HOMELY);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "brain_drain", BRAIN_DRAIN);
+		RegistryUtil.register(Registries.STATUS_EFFECT, "green_fairy", GREEN_FAIRY);
+		RegistryUtil.register(Registries.POTION, "resonance", Potions.RESONANCE);
+		RegistryUtil.register(Registries.POTION, "resonance_long", Potions.LONG_RESONANCE);
+		RegistryUtil.register(Registries.POTION, "resonance_strong", Potions.STRONG_RESONANCE);
 
 		BrewingRecipeRegistryAccessor
 			.invokeRegister(net.minecraft.potion.Potions.WATER, MMObjects.RESONATE_OOZE, Potions.RESONANCE);
