@@ -24,7 +24,8 @@ public class MiskatonicMysteries implements ModInitializer {
 	public void onInitialize() {
 		MMMidnightLibConfig.init(Constants.MOD_ID, MMMidnightLibConfig.class);
 		/*todo The Disable in Dev Method is missing, fix later
-		*todo fix MMWorld
+		*todo fix the entirety of MMWorld (Resurrection)
+		*todo connect Hastur biome to it's effect
 		*todo kill energy
 		*todo fix MMSounds
 		*todo fix various util issues
@@ -51,6 +52,7 @@ public class MiskatonicMysteries implements ModInitializer {
 		SchedulingHandler.init();
 		MMServerEvents.init();
 		MMVillagerProfessions.init();
+		MMDamageTypes.init();
 	}
 
 	private void registerPackets() {

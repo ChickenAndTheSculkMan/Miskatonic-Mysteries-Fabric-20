@@ -11,6 +11,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.packet.s2c.play.PlayerPositionLookS2CPacket;
+import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ChunkTicketType;
 import net.minecraft.server.world.ServerWorld;
@@ -62,7 +63,7 @@ public class Util {
 
 			if (world == target.getWorld()) {
 				((ServerPlayerEntity) target).networkHandler
-					.requestTeleport(x, y, z, yaw, pitch, EnumSet.noneOf(PlayerPositionLookS2CPacket.Flag.class));
+					.requestTeleport(x, y, z, yaw, pitch, EnumSet.noneOf(PositionFlag.class));
 			} else {
 				((ServerPlayerEntity) target).teleport(world, x, y, z, yaw, pitch);
 			}

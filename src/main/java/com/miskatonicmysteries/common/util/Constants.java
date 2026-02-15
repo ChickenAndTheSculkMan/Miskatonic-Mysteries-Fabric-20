@@ -217,44 +217,6 @@ public class Constants {
 
 		public static final TrackedData<Float> RESONANCE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.FLOAT);
 	}
-	//todo set Sleep and Feaster Damage to bypass armor (use tags)
-	public static class DamageSources extends DamageSource {
-
-		public static final DamageSource SLEEP = new DamageSources("sleep");
-		public static final DamageSource INSANITY = new DamageSources("insanity") {
-			@Override
-			public Text getDeathMessage(LivingEntity entity) {
-				return Text.translatable(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(3)),
-											entity.getDisplayName());
-			}
-		}.setBypassesArmor();
-
-
-		protected DamageSources(String name) {
-			super(Constants.MOD_ID + "." + name);
-		}
-
-		public static class ProtagonistDamageSource extends DamageSource {
-
-			public ProtagonistDamageSource(@Nullable Entity source) {
-				super(Constants.MOD_ID + ".protagonist", source);
-			}
-
-			@Override
-			public Text getDeathMessage(LivingEntity entity) {
-				return Text.translatable(String.format("death.attack." + name + ".%d", entity.getRandom().nextInt(4)),
-											entity.getDisplayName());
-			}
-		}
-
-		public static class FeasterDamageSource extends EntityDamageSource {
-
-			public FeasterDamageSource(@Nullable Entity source) {
-				super(Constants.MOD_ID + ".feaster", source);
-			}
-
-		}
-	}
 
 	public static class BlockSettings {
 

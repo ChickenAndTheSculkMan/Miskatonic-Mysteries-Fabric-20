@@ -8,10 +8,13 @@ import com.miskatonicmysteries.common.feature.world.processor.PsychonautHousePro
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.RegistryUtil;
 
+import com.miskatonicmysteries.common.util.Util;
+import net.fabricmc.fabric.impl.biome.modification.BuiltInRegistryKeys;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PaneBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.*;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.structure.pool.StructurePool;
@@ -28,11 +31,7 @@ import net.minecraft.structure.rule.BlockStateMatchRuleTest;
 import net.minecraft.structure.rule.RandomBlockMatchRuleTest;
 import net.minecraft.structure.rule.TagMatchRuleTest;
 import net.minecraft.util.Identifier;
-import net.minecraft.registry.BuiltinRegistries;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeEffects;
-import net.minecraft.world.biome.GenerationSettings;
-import net.minecraft.world.biome.SpawnSettings;
+import net.minecraft.world.biome.*;
 import net.minecraft.world.biome.SpawnSettings.Builder;
 import net.minecraft.world.biome.SpawnSettings.SpawnEntry;
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
@@ -44,7 +43,7 @@ import com.mojang.datafixers.util.Pair;
 
 public class MMWorld {
 
-	public static final StructureProcessorType<PsychonautHouseProcessor> PSYCHONAUT_PROCESSOR =
+	/*public static final StructureProcessorType<PsychonautHouseProcessor> PSYCHONAUT_PROCESSOR =
 		StructureProcessorType.register(Constants.MOD_ID + ":psychonaut_house", PsychonautHouseProcessor.CODEC);
 	public static final RegistryEntry<StructureProcessorList> ZOMBIE_PROCESSOR =
 		registerProcessorList("psychonaut_zombie", new PsychonautHouseProcessor(10091940),
@@ -92,14 +91,22 @@ public class MMWorld {
 		registerProcessorList("psychonaut_normal", new PsychonautHouseProcessor(12081980),
 							  new RuleStructureProcessor(ImmutableList.of(new StructureProcessorRule(
 								  new RandomBlockMatchRuleTest(Blocks.COBBLESTONE, 0.1F), AlwaysTrueRuleTest.INSTANCE,
-								  Blocks.MOSSY_COBBLESTONE.getDefaultState()))));
+								  Blocks.MOSSY_COBBLESTONE.getDefaultState()))));*/
 
-	public static final Biome HASTUR_BIOME = creatHasturBiome();
-	public static final BiomeEffect HASTUR_BIOME_EFFECT = new HasturBiomeEffect();
+	//This may cause issues
+	public static final RegistryKey<Biome> HASTUR_BIOME = RegistryKey.of(RegistryKeys.BIOME,
+			new Identifier(Constants.MOD_ID, "hastur_biome"));
 
-	private static Biome creatHasturBiome() {
+	//public static final Biome HASTUR_BIOME = creatHasturBiome();
+	//public static final BiomeEffect HASTUR_BIOME_EFFECT = new HasturBiomeEffect();
+
+	public static void connectBiome(Registerable<Biome> context) {
+		context.register(HASTUR_BIOME, creatHasturBiome(context));
+	}
+
+	private static Biome creatHasturBiome(Registerable<Biome> context) {
 		Biome.Builder biomeBuilder = new Biome.Builder();
-		biomeBuilder.temperature(0.75F).precipitation(Biome.Precipitation.RAIN).downfall(0.3F)
+		biomeBuilder.temperature(0.75F).precipitation(true).downfall(0.3F)
 			.generationSettings(new GenerationSettings.Builder()
 									.build())
 			.effects(new BiomeEffects.Builder()
@@ -123,24 +130,19 @@ public class MMWorld {
 	}
 
 	public static void init() {
-		StructurePools.register(new StructurePool(new Identifier(Constants.MOD_ID, "village/common/hastur_cultist"),
+		/*StructurePools.register(new StructurePool(new Identifier(Constants.MOD_ID, "village/common/hastur_cultist"),
 												  new Identifier("empty"),
 												  ImmutableList.of(Pair.of(StructurePoolElement.ofLegacySingle(Constants.MOD_ID + ":village/common" +
 																												   "/hastur_cultist"), 1)),
-												  StructurePool.Projection.RIGID));
+												  StructurePool.Projection.RIGID), "hastur_cultist", null);
 		StructurePools.register(new StructurePool(new Identifier(Constants.MOD_ID, "village/common" +
 			"/hastur_cultist_ascended"), new Identifier("empty"),
 												  ImmutableList.of(Pair.of(StructurePoolElement.ofLegacySingle(Constants.MOD_ID + ":village/common" +
 																												   "/hastur_cultist_ascended"), 1)),
-												  StructurePool.Projection.RIGID));
-
-		RegistryUtil.register(BuiltinRegistries.BIOME, "hastur", HASTUR_BIOME);
-		BuiltinRegistries.BIOME.getKey(HASTUR_BIOME)
-			.ifPresent(key -> MiskatonicMysteriesAPI.associateBiomeEffect(key, HASTUR_BIOME_EFFECT));
-
+												  StructurePool.Projection.RIGID));*/
 	}
 
-	public static void specialInject(StructurePool pool) {
+	/*public static void specialInject(StructurePool pool) {
 		RegistryUtil.tryAddElementToPool(new Identifier("village/plains/houses"), pool, Constants.MOD_ID +
 											 ":village/plains/houses/plains_psychonaut", StructurePool.Projection.RIGID,
 				MMMidnightLibConfig.psychonautHouseWeight, MMWorld.NORMAL_PROCESSOR);
@@ -194,5 +196,5 @@ public class MMWorld {
 		Identifier identifier = new Identifier(Constants.MOD_ID, id);
 		StructureProcessorList structureProcessorList = new StructureProcessorList(List.of(processorList));
 		return BuiltinRegistries.add(BuiltinRegistries.STRUCTURE_PROCESSOR_LIST, identifier, structureProcessorList);
-	}
+	}*/
 }

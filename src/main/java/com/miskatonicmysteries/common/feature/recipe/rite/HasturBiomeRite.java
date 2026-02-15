@@ -26,6 +26,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 import net.minecraft.util.Identifier;
@@ -54,7 +55,7 @@ public class HasturBiomeRite extends BiomeConversionRite {
 
 	@Override
 	protected int getRawBiomeId() {
-		return BuiltinRegistries.BIOME.getRawId(MMWorld.HASTUR_BIOME);
+		return RegistryKeys.BIOME.getRegistry(MMWorld.HASTUR_BIOME);
 	}
 
 	@Override

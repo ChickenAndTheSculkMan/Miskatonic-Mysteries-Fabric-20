@@ -14,10 +14,7 @@ import com.miskatonicmysteries.common.feature.entity.ProtagonistEntity;
 import com.miskatonicmysteries.common.feature.world.biome.HasturBiomeEffect;
 import com.miskatonicmysteries.common.feature.world.party.MMPartyState;
 import com.miskatonicmysteries.common.handler.ascension.HasturAscensionHandler;
-import com.miskatonicmysteries.common.registry.MMObjects;
-import com.miskatonicmysteries.common.registry.MMSpellEffects;
-import com.miskatonicmysteries.common.registry.MMSpellMediums;
-import com.miskatonicmysteries.common.registry.MMWorld;
+import com.miskatonicmysteries.common.registry.*;
 import com.miskatonicmysteries.common.util.Constants;
 import com.miskatonicmysteries.common.util.InventoryUtil;
 
@@ -31,11 +28,14 @@ import net.minecraft.block.BellBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.EvokerEntity;
 import net.minecraft.entity.mob.GuardianEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -131,9 +131,9 @@ public class MMServerEvents {
 	private static void onStopSleeping(LivingEntity entity, BlockPos sleepingPos) {
 		World world = entity.getWorld();
 		if (!world.isClient && entity instanceof PlayerEntity p && p.canResetTimeBySleeping()) {
-			if (p instanceof BiomeAffected affected && affected.getCurrentBiomeEffect() == MMWorld.HASTUR_BIOME_EFFECT) {
+			/*if (p instanceof BiomeAffected affected && affected.getCurrentBiomeEffect() == MMWorld.HASTUR_BIOME_EFFECT) {
 				HasturBiomeEffect.onWakeUp(p, sleepingPos);
-			}
+			}*/
 			if (world.random.nextFloat() < MMMidnightLibConfig.statueEffectChance) {
 				Iterable<BlockPos> positions = BlockPos.iterateOutwards(entity.getBlockPos(), 10, 10, 10);
 				for (BlockPos position : positions) {
@@ -150,12 +150,14 @@ public class MMServerEvents {
 	public static void playerDamagePre(PlayerEntity player, DamageSource source, float amount,
 									   CallbackInfoReturnable<Boolean> infoReturnable) {
 		if (source
-			.getAttacker() instanceof ProtagonistEntity && !(source instanceof Constants.DamageSources.ProtagonistDamageSource)) {
-			infoReturnable.setReturnValue(player.damage(source.isOf(Constants.DamageSources.ProtagonistDamageSource)), amount);
+			.getAttacker() instanceof ProtagonistEntity && !(source.isOf(MMDamageTypes.PROTAGONIST))) {
+            infoReturnable.setReturnValue(player.damage(new DamageSource(player.getWorld().getRegistryManager()
+					.get(RegistryKeys.DAMAGE_TYPE).entryOf(MMDamageTypes.PROTAGONIST)), amount));
 			return;
 		}
-		if (source.getAttacker() instanceof HallucinationEntity && source != Constants.DamageSources.INSANITY) {
-			infoReturnable.setReturnValue(player.damage(Constants.DamageSources.INSANITY, amount));
+		if (source.getAttacker() instanceof HallucinationEntity && !source.isOf(MMDamageTypes.INSANITY)) {
+			infoReturnable.setReturnValue(player.damage(new DamageSource(player.getWorld().getRegistryManager()
+					.get(RegistryKeys.DAMAGE_TYPE).entryOf(MMDamageTypes.INSANITY)), amount));
 			return;
 		}
 		if (source == player.getDamageSources().lightningBolt()) {
@@ -189,7 +191,7 @@ public class MMServerEvents {
 					infoReturnable.setReturnValue(false);
 					return false;
 				}
-			} else if (source instanceof Constants.DamageSources.ProtagonistDamageSource) {
+			} else if (source.isOf(MMDamageTypes.PROTAGONIST)) {
 				MiskatonicMysteriesAPI.resetProgress(player);
 				if (source.getSource() instanceof ProtagonistEntity) {
 					((ProtagonistEntity) source.getAttacker()).removeAfterTargetKill();

@@ -8,6 +8,7 @@ import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.structure.pool.StructurePool;
 import net.minecraft.structure.pool.StructurePoolElement;
@@ -34,20 +35,20 @@ public class RegistryUtil {
 		BannerPattern pattern = Registry.register(Registries.BANNER_PATTERN, new Identifier(Constants.MOD_ID, id), new BannerPattern(Constants.MOD_ID + "_" + shortId));
 		return Registries.BANNER_PATTERN.getEntry(Registries.BANNER_PATTERN.getKey(pattern).get()).get();
 	}
-	//Note, this might crash
-	public static void tryAddElementToPool(Identifier targetPool, StructurePool pool, String elementId, StructurePool.Projection projection,
+	//todo iirc this is connected to Psychonaut houses
+	/*public static void tryAddElementToPool(Identifier targetPool, StructurePool pool, String elementId, StructurePool.Projection projection,
 										   int weight) {
 		tryAddElementToPool(targetPool, pool, elementId, projection, weight, (RegistryEntry<StructureProcessorList>)StructureProcessorLists.EMPTY);
 	}
 
 	public static void tryAddElementToPool(Identifier targetPool, StructurePool pool, String elementId, StructurePool.Projection projection,
 										   int weight, RegistryEntry<StructureProcessorList> processors) {
-		if (targetPool.equals(pool.getId())) {
+		if (targetPool.equals(pool.())) {
 			StructurePoolElement element = StructurePoolElement.ofProcessedLegacySingle(elementId, processors).apply(projection);
 			for (int i = 0; i < weight; i++) {
 				((StructurePoolAccessor) pool).getElements().add(element);
 			}
 			((StructurePoolAccessor) pool).getElementCounts().add(Pair.of(element, weight));
 		}
-	}
+	}*/
 }
