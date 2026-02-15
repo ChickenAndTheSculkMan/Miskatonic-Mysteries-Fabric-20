@@ -16,14 +16,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Matrix4f;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
 
 import java.util.Arrays;
-
-import javax.annotation.Nullable;
-
 public abstract class Rite {
 
 	private final Identifier id;

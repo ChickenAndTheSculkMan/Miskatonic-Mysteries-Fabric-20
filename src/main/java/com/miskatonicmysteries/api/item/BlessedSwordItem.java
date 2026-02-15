@@ -40,7 +40,7 @@ public class BlessedSwordItem extends SwordItem implements Affiliated {
 	public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
 		if (MiskatonicMysteriesAPI.isDefiniteAffiliated(target)
 			&& MiskatonicMysteriesAPI.getNonNullAffiliation(target, false) != getAffiliation(true)) {
-			target.damage(DamageSource.MAGIC, 2);
+			target.damage(target.getDamageSources().magic(), 2);
 		}
 		if (target.getRandom().nextFloat() < 0.40F) {
 			if (attacker instanceof Sanity && attacker.getRandom().nextBoolean()) {

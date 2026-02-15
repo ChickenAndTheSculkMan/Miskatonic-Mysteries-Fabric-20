@@ -23,7 +23,7 @@ public class InsanityEvent {
 	}
 
 	public boolean execute(PlayerEntity playerEntity, Sanity sanity) {
-		if (!playerEntity.world.isClient) {
+		if (!playerEntity.getWorld().isClient) {
 			InsanityEventPacket.send(playerEntity, id);
 		}
 		return true;

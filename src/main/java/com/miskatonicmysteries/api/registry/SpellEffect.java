@@ -7,10 +7,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Predicate;
 
-import javax.annotation.Nullable;
 
 public abstract class SpellEffect {
 
@@ -26,11 +26,11 @@ public abstract class SpellEffect {
 
 	public static void spawnParticleEffectsOnTarget(LivingEntity caster, SpellEffect effect, Entity target) {
 		for (int i = 0; i < 15; i++) {
-			target.world.addParticle(ParticleTypes.ENTITY_EFFECT,
-									 target.getX() + target.world.random.nextGaussian() * target.getWidth(),
-									 target.getY() + target.world.random.nextFloat()
+			target.getWorld().addParticle(ParticleTypes.ENTITY_EFFECT,
+									 target.getX() + target.getWorld().random.nextGaussian() * target.getWidth(),
+									 target.getY() + target.getWorld().random.nextFloat()
 										 * target.getHeight(),
-									 target.getZ() + target.world.random.nextGaussian() * target.getWidth(),
+									 target.getZ() + target.getWorld().random.nextGaussian() * target.getWidth(),
 									 ((effect.getColor(caster) >> 16) & 255) / 255F,
 									 ((effect.getColor(caster) >> 8) & 255) / 255F,
 									 (effect.getColor(caster) & 255) / 255F);

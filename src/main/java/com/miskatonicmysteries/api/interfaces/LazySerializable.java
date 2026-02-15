@@ -3,6 +3,7 @@ package com.miskatonicmysteries.api.interfaces;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Recipe;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.world.World;
 
 public interface LazySerializable extends Recipe<Inventory> {
@@ -13,7 +14,7 @@ public interface LazySerializable extends Recipe<Inventory> {
 	}
 
 	@Override
-	default ItemStack craft(Inventory inv) {
+    default ItemStack craft(Inventory inventory, DynamicRegistryManager registryManager) {
 		return ItemStack.EMPTY;
 	}
 
@@ -23,7 +24,7 @@ public interface LazySerializable extends Recipe<Inventory> {
 	}
 
 	@Override
-	default ItemStack getOutput() {
+    default ItemStack getOutput(DynamicRegistryManager registryManager) {
 		return ItemStack.EMPTY;
 	}
 

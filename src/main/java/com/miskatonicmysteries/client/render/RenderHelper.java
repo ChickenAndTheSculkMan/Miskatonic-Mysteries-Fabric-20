@@ -14,11 +14,11 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.Matrix4f;
 
 import java.util.function.Function;
 
 import ladysnake.satin.api.util.RenderLayerHelper;
+import org.joml.Matrix4f;
 
 @Environment(EnvType.CLIENT)
 public class RenderHelper extends RenderLayer {

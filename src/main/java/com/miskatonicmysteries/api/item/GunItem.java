@@ -11,13 +11,15 @@ import net.fabricmc.api.Environment;
 
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.EntityDamageSource;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.DamageType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Style;
@@ -31,6 +33,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
@@ -171,12 +174,14 @@ public abstract class GunItem extends Item {
 																attacker.getBoundingBox().stretch(vec3d2.multiply(distance)).expand(1.0D, 1.0D, 1.0D),
 																(target) -> !target.isSpectator()  && attacker.isAttackable() && attacker.canSee(target));
 
-		BlockPos blockPos = new BlockPos(blockHit.getPos());
+		//todo fix this later on, couldn't figure out how to convert it over to a Vec3i
+		/*BlockPos blockPos = new BlockPos(blockHit.getPos());
 		if (world.getBlockState(blockPos).getBlock() instanceof Shootable) {
 			((Shootable) world.getBlockState(blockPos).getBlock()).onShot(world, blockPos, attacker);
-		}
+		}*/
 		if (hit != null && hit.getEntity() != null && (blockHit.squaredDistanceTo(attacker) > hit.getEntity().squaredDistanceTo(attacker))) {
-			hit.getEntity().damage(new EntityDamageSource(Constants.MOD_ID + ".gun", attacker), getDamage());
+			//This may crash, also removes the extra death message (flawed)
+			hit.getEntity().damage(new DamageSource((RegistryEntry<DamageType>)hit.getEntity().getDamageSources().genericKill(), attacker), getDamage());
 			if (world.isClient) {
 				for (int i = 0; i < 4; i++) {
 					world.addParticle(ParticleTypes.SMOKE, hit.getPos().x + world.random.nextGaussian() / 20F,

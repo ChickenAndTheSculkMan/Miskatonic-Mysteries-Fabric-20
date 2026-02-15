@@ -30,7 +30,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
@@ -39,7 +39,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import dev.emi.trinkets.api.TrinketsApi;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
 
 public class MiskatonicMysteriesAPI {
 
@@ -90,7 +91,7 @@ public class MiskatonicMysteriesAPI {
 	}
 
 	public static void resetProgress(PlayerEntity player) {
-		if (player.world instanceof ServerWorld) {
+		if (player.getWorld() instanceof ServerWorld) {
 			Sanity.of(player).ifPresent(sanity -> {
 				sanity.getSanityCapExpansions().keySet().forEach(sanity::removeSanityCapExpansion);
 				sanity.setSanity(sanity.getMaxSanity(), true);
