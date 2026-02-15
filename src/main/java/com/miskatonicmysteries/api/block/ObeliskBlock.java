@@ -29,7 +29,7 @@ import net.minecraft.item.ItemUsageContext;
 import net.minecraft.predicate.block.BlockStatePredicate;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.tag.FluidTags;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -40,7 +40,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldEvents;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class ObeliskBlock extends HorizontalFacingBlock implements Waterloggable, BlockEntityProvider, Affiliated {
@@ -118,7 +118,7 @@ public class ObeliskBlock extends HorizontalFacingBlock implements Waterloggable
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		final BlockState state = getDefaultState().with(Properties.HORIZONTAL_FACING, ctx.getPlayerFacing().getOpposite());
+		final BlockState state = getDefaultState().with(Properties.HORIZONTAL_FACING, ctx.getPlayerLookDirection().getOpposite());
 		if (state.contains(WATERLOGGED)) {
 			final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
 			final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;
@@ -147,7 +147,7 @@ public class ObeliskBlock extends HorizontalFacingBlock implements Waterloggable
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
 												BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
-			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
 	}

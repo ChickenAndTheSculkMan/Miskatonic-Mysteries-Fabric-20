@@ -24,7 +24,7 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
-import net.minecraft.tag.FluidTags;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
@@ -39,8 +39,8 @@ import net.minecraft.world.WorldAccess;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.util.math.random.Random;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, BlockEntityProvider {
@@ -60,7 +60,7 @@ public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, 
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
 												BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
-			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
 	}
@@ -138,7 +138,7 @@ public class AltarBlock extends HorizontalFacingBlock implements Waterloggable, 
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		final BlockState state = this.getDefaultState().with(FACING, ctx.getPlayerFacing());
+		final BlockState state = this.getDefaultState().with(FACING, ctx.getPlayerLookDirection());
 		if (state.contains(WATERLOGGED)) {
 			final FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
 			final boolean source = fluidState.isIn(FluidTags.WATER) && fluidState.getLevel() == 8;

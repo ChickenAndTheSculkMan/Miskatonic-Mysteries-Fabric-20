@@ -28,7 +28,7 @@ public class SignBlock extends Block {
 	public static final VoxelShape WEST_SHAPE = createCuboidShape(15, 0, 0, 16, 16, 16);
 
 	public SignBlock(FabricBlockSettings settings) {
-		super(settings);
+		super(settings.pistonBehavior(PistonBehavior.DESTROY));
 		setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(IN_WALL, false));
 	}
 
@@ -38,7 +38,7 @@ public class SignBlock extends Block {
 			if (ctx.getSide() != Direction.UP) {
 				return this.getDefaultState().with(FACING, ctx.getSide()).with(IN_WALL, true);
 			}
-			return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite()).with(IN_WALL, false);
+			return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing().getOpposite()).with(IN_WALL, false);
 		}
 		return null;
 	}
@@ -52,11 +52,6 @@ public class SignBlock extends Block {
 	public boolean isPlacementValid(WorldView world, BlockPos pos, Direction direction) {
 		return direction != Direction.DOWN && world.getBlockState(pos.offset(direction.getOpposite()))
 			.isSideSolidFullSquare(world, pos, direction);
-	}
-
-	@Override
-	public PistonBehavior getPistonBehavior(BlockState state) {
-		return PistonBehavior.DESTROY;
 	}
 
 	@Override

@@ -19,7 +19,6 @@ import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.HorizontalFacingBlock;
-import net.minecraft.block.Material;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
@@ -49,7 +48,7 @@ import net.minecraft.world.event.listener.GameEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityProvider, Affiliated {
 
@@ -58,14 +57,9 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 	private final Affiliation affiliation;
 
 	public OctagramBlock(Affiliation affiliation) {
-		super(Settings.of(Material.CARPET).nonOpaque().noCollision().hardness(1).resistance(3F));
+		super(Settings.create().nonOpaque().noCollision().hardness(1).resistance(3F).pistonBehavior(PistonBehavior.DESTROY));
 		OCTAGRAMS.add(this);
 		this.affiliation = affiliation;
-	}
-
-	@Override
-	public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
-		return true;
 	}
 
 	@Nullable
@@ -77,7 +71,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 					return null;
 				}
 			}
-			return this.getDefaultState().with(FACING, ctx.getPlayerFacing());
+			return this.getDefaultState().with(FACING, ctx.getHorizontalPlayerFacing());
 		}
 		return null;
 	}
@@ -165,11 +159,6 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 	}
 
 	@Override
-	public PistonBehavior getPistonBehavior(BlockState state) {
-		return PistonBehavior.DESTROY;
-	}
-
-	@Override
 	public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
 		return 1;
 	}
@@ -249,7 +238,7 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 		public static IntProperty NUMBER = IntProperty.of("number", 0, 7);
 
 		public BlockOuterOctagram() {
-			super(Settings.of(Material.CARPET).nonOpaque().noCollision().hardness(1).resistance(3F));
+			super(Settings.create().nonOpaque().noCollision().hardness(1).resistance(3F).pistonBehavior(PistonBehavior.DESTROY));
 			setDefaultState(getDefaultState().with(NUMBER, 0));
 		}
 
@@ -330,11 +319,6 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 		}
 
 		@Override
-		public PistonBehavior getPistonBehavior(BlockState state) {
-			return PistonBehavior.DESTROY;
-		}
-
-		@Override
 		public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
 			return 1;
 		}
@@ -355,11 +339,6 @@ public class OctagramBlock extends HorizontalFacingBlock implements BlockEntityP
 				}
 			}
 			super.onEntityCollision(state, world, pos, entity);
-		}
-
-		@Override
-		public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
-			return true;
 		}
 
 		@Override

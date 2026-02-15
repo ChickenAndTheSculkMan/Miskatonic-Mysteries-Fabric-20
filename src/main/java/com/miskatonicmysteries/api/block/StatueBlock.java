@@ -29,7 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
-import net.minecraft.tag.FluidTags;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.text.Text;
 
 import net.minecraft.util.BlockMirror;
@@ -48,7 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import static net.minecraft.state.property.Properties.WATERLOGGED;
 
 public class StatueBlock extends Block implements Waterloggable, BlockEntityProvider, Affiliated {
@@ -110,7 +110,7 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 		if (getAffiliation(false).equals(affiliated.getAffiliation(false))) {
 			int duration = (buffed ? 9600 : 4800);
 			for (StatusEffect statusEffect : POSITIVE_STATUE_EFFECTS.keySet()) {
-				if (entity.world.getRandom().nextInt(POSITIVE_STATUE_EFFECTS.get(statusEffect)) == 0) {
+				if (entity.getWorld().getRandom().nextInt(POSITIVE_STATUE_EFFECTS.get(statusEffect)) == 0) {
 					entity.addStatusEffect(
 						new StatusEffectInstance(statusEffect, duration, buffed && statusEffect != StatusEffects.REGENERATION ? 1 : 0, true,
 												 false, false));
@@ -119,7 +119,7 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 		} else {
 			int duration = (buffed ? 1200 : 600);
 			for (StatusEffect statusEffect : NEGATIVE_STATUE_EFFECTS.keySet()) {
-				if (entity.world.getRandom().nextInt(NEGATIVE_STATUE_EFFECTS.get(statusEffect)) == 0) {
+				if (entity.getWorld().getRandom().nextInt(NEGATIVE_STATUE_EFFECTS.get(statusEffect)) == 0) {
 					entity.addStatusEffect(new StatusEffectInstance(statusEffect, duration, buffed ? 1 : 0, true, true, false));
 				}
 			}
@@ -175,7 +175,7 @@ public class StatueBlock extends Block implements Waterloggable, BlockEntityProv
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState newState, WorldAccess world, BlockPos pos,
 												BlockPos posFrom) {
 		if (state.contains(WATERLOGGED) && state.get(WATERLOGGED)) {
-			world.createAndScheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		return super.getStateForNeighborUpdate(state, direction, newState, world, pos, posFrom);
 	}
