@@ -39,7 +39,7 @@ public class StonecutterScreenHandlerMixin {
 	private void updateInput(Inventory input, ItemStack stack, CallbackInfo ci) {
 		if (mm_cachedPlayer != null) {
 			for (StonecuttingRecipe recipe : List.copyOf(availableRecipes)) {
-				Item outputItem = recipe.getOutput().getItem();
+				Item outputItem = recipe.getOutput(null).getItem();
 				if (outputItem instanceof Affiliated || (outputItem instanceof BlockItem b && b.getBlock() instanceof Affiliated)) {
 					Affiliated affiliated = outputItem instanceof Affiliated
 											? (Affiliated) outputItem

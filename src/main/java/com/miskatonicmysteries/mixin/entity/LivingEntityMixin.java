@@ -60,9 +60,9 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 
 	@Inject(method = "tick", at = @At("HEAD"))
 	private void tick(CallbackInfo ci) {
-		if (!world.isClient) {
+		if (!getWorld().isClient) {
 			if (age % 20 == 0) {
-				currentBiomeEffect = MiskatonicMysteriesAPI.getBiomeEffect(world, getBlockPos());
+				currentBiomeEffect = MiskatonicMysteriesAPI.getBiomeEffect(getWorld(), getBlockPos());
 			}
 
 			if (currentBiomeEffect != null) {
@@ -167,7 +167,7 @@ public abstract class LivingEntityMixin extends Entity implements DropManipulato
 				double d = this.random.nextGaussian() * 0.02D;
 				double e = this.random.nextGaussian() * 0.02D;
 				double f = this.random.nextGaussian() * 0.02D;
-				this.world.addParticle(ParticleTypes.HAPPY_VILLAGER, this.getParticleX(1.0D), this
+				this.getWorld().addParticle(ParticleTypes.HAPPY_VILLAGER, this.getParticleX(1.0D), this
 					.getRandomBodyY() + 1.0D, this.getParticleZ(1.0D), d, e, f);
 			}
 			ci.cancel();

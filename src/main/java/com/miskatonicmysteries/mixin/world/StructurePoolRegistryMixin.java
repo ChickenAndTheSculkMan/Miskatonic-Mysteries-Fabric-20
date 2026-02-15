@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(StructurePools.class)
 public class StructurePoolRegistryMixin {
 
-	@Inject(method = "register", at = @At("HEAD"), cancellable = true)
+	/*@Inject(method = "register", at = @At("HEAD"), cancellable = true)
 	private static void inject(StructurePool pool, CallbackInfoReturnable<StructurePool> info) {
 		MMWorld.specialInject(pool);
-	}
+	}*/
 }

@@ -95,18 +95,18 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
 
 	@Inject(method = "<init>", at = @At("TAIL"))
-	private void init(World world, BlockPos pos, float yaw, GameProfile gameProfile, PlayerPublicKey publicKey, CallbackInfo ci) {
+	private void init(World world, BlockPos pos, float yaw, GameProfile gameProfile, CallbackInfo ci) {
 		ascendantComponent = MMComponents.ASCENDANT_COMPONENT.get(this);
 	}
 
 	@Inject(method = "wakeUp(ZZ)V", at = @At("HEAD"))
 	private void wakeUp(boolean bl, boolean updateSleepingPlayers, CallbackInfo ci) {
-		if (canResetTimeBySleeping() && !world.isClient
-			&& world.random.nextFloat() < MMMidnightLibConfig.statueEffectChance) {
+		if (canResetTimeBySleeping() && !getWorld().isClient
+			&& getWorld().random.nextFloat() < MMMidnightLibConfig.statueEffectChance) {
 			Iterable<BlockPos> positions = BlockPos.iterateOutwards(getBlockPos(), 10, 10, 10);
 			for (BlockPos position : positions) {
-				if (world.getBlockState(position).getBlock() instanceof StatueBlock) {
-					((StatueBlock) world.getBlockState(position).getBlock()).selectStatusEffects(this, this);
+				if (getWorld().getBlockState(position).getBlock() instanceof StatueBlock) {
+					((StatueBlock) getWorld().getBlockState(position).getBlock()).selectStatusEffects(this, this);
 					break;
 				}
 			}
@@ -123,7 +123,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 			if (getSanity() < 750) {
 				addStatusEffect(new StatusEffectInstance(StatusEffects.REGENERATION, 100, 0, true, true, false));
 				if (getSanity() < 500) {
-					if (!world.isClient && getResonance() > 0.4F && age % 400 == 0) {
+					if (!getWorld().isClient && getResonance() > 0.4F && age % 400 == 0) {
 						addExperienceLevels(random.nextInt(10));
 					}
 				}
@@ -138,7 +138,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 				setShocked(false);
 			}
 		}
-		if (!world.isClient && age > 100 && age % MMMidnightLibConfig.insanityInterval == 0) {
+		if (!getWorld().isClient && age > 100 && age % MMMidnightLibConfig.insanityInterval == 0) {
 			InsanityHandler.handleInsanityEvents((PlayerEntity) (Object) this);
 		}
 	}
@@ -186,7 +186,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
 	@Override
 	public void removeSanityCapExpansion(String name) {
-		if (!world.isClient && sanityCapOverrides.containsKey(name)) {
+		if (!getWorld().isClient && sanityCapOverrides.containsKey(name)) {
 			sanityCapOverrides.remove(name);
 			RemoveExpansionPacket.send((PlayerEntity) (Object) this, name);
 		}
@@ -199,7 +199,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
 	@Override
 	public void syncSanityData() {
-		if (!world.isClient) {
+		if (!getWorld().isClient) {
 			sanityCapOverrides.forEach((s, i) -> ExpandSanityPacket.send((PlayerEntity) (Object) this, s, i));
 		}
 	}
@@ -354,7 +354,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
 	@Override
 	public void syncSpellData() {
-		if (!world.isClient) {
+		if (!getWorld().isClient) {
 			SyncSpellCasterDataPacket.send(false, (PlayerEntity) (Object) this, this);
 		}
 	}
@@ -410,7 +410,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements Sanity, 
 
 	@Override
 	public void syncKnowledge() {
-		if (!world.isClient) {
+		if (!getWorld().isClient) {
 			SyncKnowledgePacket.send(this, this);
 		}
 	}

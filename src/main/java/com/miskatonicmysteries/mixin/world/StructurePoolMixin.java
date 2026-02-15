@@ -13,6 +13,7 @@ public class StructurePoolMixin {
 	 * @author - TelepathicGrunt
 	 * @return - The higher weight that is a more reasonable limit.
 	 */
+	//this may cause a problem
 	@ModifyConstant(
 			method = "lambda$static$1",
 			constant = @Constant(intValue = 150),

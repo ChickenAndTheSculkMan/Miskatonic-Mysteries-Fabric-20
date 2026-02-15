@@ -80,21 +80,21 @@ public abstract class VillagerEntityMixin extends MerchantEntity {
 	private void playerInteract(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
 		if (InsanityHandler.calculateSanityFactor(Sanity.of(player)) < MMMidnightLibConfig.villagerStopTradingPercentage) {
 			sayNo();
-			cir.setReturnValue(ActionResult.success(player.world.isClient));
+			cir.setReturnValue(ActionResult.success(player.getWorld().isClient));
 		}
 
 		ItemStack item = player.getStackInHand(hand);
 		VillagerEntity $this = (VillagerEntity) (Object) this;
 		if (item.getItem() instanceof VillagerPartyDrug drug) {
 			if (drug.canDrug($this)) {
-				if (world instanceof ServerWorld s) {
+				if (getWorld() instanceof ServerWorld s) {
 					Party party = MMPartyState.get(s).getParty(getBlockPos());
 					if (party != null) {
 						addStatusEffect(drug.getStatusEffect($this));
 						party.addPartyPower(Party.DRUGS_BONUS);
 						item.decrement(1);
 						this.playSound(this.getTradingSound(true), this.getSoundVolume(), this.getSoundPitch());
-						world.sendEntityStatus(this, (byte) 14);
+						getWorld().sendEntityStatus(this, (byte) 14);
 					}
 				}
 				cir.setReturnValue(ActionResult.CONSUME);
@@ -118,10 +118,10 @@ public abstract class VillagerEntityMixin extends MerchantEntity {
 
 	@Shadow protected abstract void releaseAllTickets();
 
-	@Inject(method = "prepareOffersFor", at = @At("TAIL"))
+	/*@Inject(method = "prepareOffersFor", at = @At("TAIL"))
 	private void prepareOffersFor(PlayerEntity player, CallbackInfo ci) {
 		if (this instanceof BiomeAffected affected && affected.getCurrentBiomeEffect() == MMWorld.HASTUR_BIOME_EFFECT) {
 			HasturBiomeEffect.modifyVillagerOffers((VillagerEntity) (Object) this, player, getOffers());
 		}
-	}
+	}*/
 }

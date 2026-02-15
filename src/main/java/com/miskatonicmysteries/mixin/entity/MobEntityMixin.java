@@ -126,7 +126,7 @@ public abstract class MobEntityMixin extends LivingEntity implements HiddenEntit
 					setStackInHand(Hand.MAIN_HAND, player.getStackInHand(hand).split(1));
 					appeasable.setAppeasedTicks(200 + player.getRandom().nextInt(200));
 					playAmbientSound();
-					player.world.sendEntityStatus(this, (byte) 14);
+					player.getWorld().sendEntityStatus(this, (byte) 14);
 					MiskatonicMysteriesAPI.addKnowledge(Constants.Misc.WITCH_KNOWLEDGE, player);
 				}
 			}

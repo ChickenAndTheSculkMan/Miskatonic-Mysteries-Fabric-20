@@ -5,6 +5,7 @@ import com.miskatonicmysteries.common.feature.world.party.Party;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.JukeboxBlock;
+import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
@@ -17,11 +18,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(JukeboxBlock.class)
+@Mixin(JukeboxBlockEntity.class)
 public class JukeboxBlockMixin {
-
-	@Inject(method = "setRecord", at = @At("HEAD"))
-	private void onRecordSet(Entity user, WorldAccess world, BlockPos pos, BlockState state, ItemStack stack, CallbackInfo ci) {
+/*todo fix this up
+	@Inject(method = "startPlaying", at = @At("HEAD"))
+	private void onRecordSet(CallbackInfo ci) {
 		if (world instanceof ServerWorld s) {
 			Party party = MMPartyState.get(s).getParty(pos);
 			if (party != null) {
@@ -30,13 +31,13 @@ public class JukeboxBlockMixin {
 		}
 	}
 
-	@Inject(method = "removeRecord", at = @At("HEAD"))
-	private void onRecordRemoved(World world, BlockPos pos, CallbackInfo ci) {
+	@Inject(method = "stopPlaying", at = @At("HEAD"))
+	private void onRecordRemoved(CallbackInfo ci) {
 		if (world instanceof ServerWorld s) {
 			Party party = MMPartyState.get(s).getParty(pos);
 			if (party != null) {
 				party.musicSources.remove(pos);
 			}
 		}
-	}
+	}*/
 }
